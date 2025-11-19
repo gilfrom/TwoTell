@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "topic": "Oddities",
+    "options": [
+      {
+        "id": "a",
+        "text": "German police discovered that a slug was responsible for mysteriously ringing a doorbell late at night.",
+        "isTrue": true,
+        "image": "/images/slug_doorbell.png",
+        "source": "Deutsche Welle",
+        "date": "Feb 15, 2024"
+      },
+      {
+        "id": "b",
+        "text": "A cat in France was caught ordering $500 worth of cat food via a smart speaker.",
+        "isTrue": false,
+        "image": "/images/cat_smart_speaker.png",
+        "source": "TechCrunch",
+        "date": "Nov 10, 2023"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "topic": "Technology",
+    "options": [
+      {
+        "id": "a",
+        "text": "China successfully activated a wind-powered undersea data center cooled by seawater.",
+        "isTrue": true,
+        "image": "/images/undersea_data_center.png",
+        "source": "Reuters",
+        "date": "Dec 20, 2023"
+      },
+      {
+        "id": "b",
+        "text": "Google announced a new data center built entirely inside a dormant volcano in Iceland.",
+        "isTrue": false,
+        "image": "/images/volcano_data_center.png",
+        "source": "The Verge",
+        "date": "Jan 05, 2024"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "topic": "Science",
+    "options": [
+      {
+        "id": "a",
+        "text": "Scientists detected the building blocks of life in ice outside our Milky Way galaxy for the first time.",
+        "isTrue": true,
+        "image": "/images/space_ice_molecules.png",
+        "source": "Science Daily",
+        "date": "Mar 01, 2024"
+      },
+      {
+        "id": "b",
+        "text": "NASA's Perseverance rover found fossilized bacteria on a Martian rock named 'Bunsen'.",
+        "isTrue": false,
+        "image": "/images/mars_rover_fossil.png",
+        "source": "NASA JPL",
+        "date": "Feb 28, 2024"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "topic": "AI & Tech",
+    "options": [
+      {
+        "id": "a",
+        "text": "A study found that AI bots showed signs of 'gambling addiction' when placed in simulated betting environments.",
+        "isTrue": true,
+        "image": "/images/ai_gambling_bots.png",
+        "source": "TechCrunch",
+        "date": "Jan 12, 2024"
+      },
+      {
+        "id": "b",
+        "text": "OpenAI released a model that refuses to write poetry unless it rhymes with 'orange'.",
+        "isTrue": false,
+        "image": "/images/openai_orange_poetry.png",
+        "source": "The Verge",
+        "date": "Feb 01, 2024"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "topic": "Nature",
+    "options": [
+      {
+        "id": "a",
+        "text": "An osprey caused a wildfire in Canada by dropping a fish onto a power line.",
+        "isTrue": true,
+        "image": "/images/osprey_wildfire.png",
+        "source": "CBC News",
+        "date": "Aug 15, 2023"
+      },
+      {
+        "id": "b",
+        "text": "A beaver in Oregon accidentally dammed a river with stolen lawn furniture.",
+        "isTrue": false,
+        "image": "/images/beaver_lawn_furniture.png",
+        "source": "Oregon Live",
+        "date": "Sep 22, 2023"
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "topic": "Space",
+    "options": [
+      {
+        "id": "a",
+        "text": "The 'God of Chaos' asteroid mission was saved from budget cuts and will proceed.",
+        "isTrue": true,
+        "image": "/images/asteroid_mission.png",
+        "source": "Space.com",
+        "date": "Mar 05, 2024"
+      },
+      {
+        "id": "b",
+        "text": "SpaceX announced plans to paint a rocket pink for the upcoming 'Barbie' sequel.",
+        "isTrue": false,
+        "image": "/images/spacex_pink_rocket.png",
+        "source": "IGN",
+        "date": "Apr 01, 2024"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "topic": "Oddities",
+    "options": [
+      {
+        "id": "a",
+        "text": "A flight attendant went viral after finding a pile of clipped toenails left on a plane floor.",
+        "isTrue": true,
+        "image": "/images/plane_toenails.png",
+        "source": "New York Post",
+        "date": "Jan 20, 2024"
+      },
+      {
+        "id": "b",
+        "text": "A passenger was banned for trying to cook a steak on a plane engine during boarding.",
+        "isTrue": false,
+        "image": "/images/plane_engine_steak.png",
+        "source": "Travel Weekly",
+        "date": "Dec 15, 2023"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "topic": "Science",
+    "options": [
+      {
+        "id": "a",
+        "text": "A new hydrogen battery was developed that operates at temperatures four times colder than previous versions.",
+        "isTrue": true,
+        "image": "/images/hydrogen_battery_cold.png",
+        "source": "Science Daily",
+        "date": "Feb 10, 2024"
+      },
+      {
+        "id": "b",
+        "text": "Scientists created a battery made entirely of recycled banana peels that lasts 100 years.",
+        "isTrue": false,
+        "image": "/images/banana_peel_battery.png",
+        "source": "Nature",
+        "date": "Mar 12, 2024"
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "topic": "UK News",
+    "options": [
+      {
+        "id": "a",
+        "text": "A woman in Yorkshire is fighting the council to keep a 4-foot resin gorilla named Caesar on her roof.",
+        "isTrue": true,
+        "image": "/images/gorilla_on_roof.png",
+        "source": "BBC News",
+        "date": "Mar 08, 2024"
+      },
+      {
+        "id": "b",
+        "text": "The Tower of London hired a golden retriever to guard the Crown Jewels.",
+        "isTrue": false,
+        "image": "/images/golden_retriever_crown_jewels.png",
+        "source": "The Guardian",
+        "date": "Feb 25, 2024"
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "topic": "Innovation",
+    "options": [
+      {
+        "id": "a",
+        "text": "Scientists created night-vision contact lenses that allow users to see beyond visible light.",
+        "isTrue": true,
+        "image": "/images/night_vision_contacts.png",
+        "source": "Advanced Materials",
+        "date": "Jan 30, 2024"
+      },
+      {
+        "id": "b",
+        "text": "Apple patented a pair of glasses that automatically block out billboards in real life.",
+        "isTrue": false,
+        "image": "/images/apple_glasses_billboards.png",
+        "source": "MacRumors",
+        "date": "Feb 18, 2024"
+      }
+    ]
+  }
+]
