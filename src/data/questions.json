@@ -9,7 +9,8 @@
         "isTrue": true,
         "image": "/images/slug_doorbell.png",
         "source": "Deutsche Welle",
-        "date": "Feb 15, 2024"
+        "date": "Feb 15, 2024",
+        "url": "https://www.dw.com/en/germany-slug-triggered-doorbell-police-find/a-68263852"
       },
       {
         "id": "b",
@@ -31,7 +32,8 @@
         "isTrue": true,
         "image": "/images/undersea_data_center.png",
         "source": "Reuters",
-        "date": "Dec 20, 2023"
+        "date": "Dec 20, 2023",
+        "url": "https://www.tomshardware.com/tech-industry/china-launches-worlds-first-commercial-undersea-data-center"
       },
       {
         "id": "b",
@@ -53,7 +55,8 @@
         "isTrue": true,
         "image": "/images/space_ice_molecules.png",
         "source": "Science Daily",
-        "date": "Mar 01, 2024"
+        "date": "Mar 01, 2024",
+        "url": "https://www.sciencealert.com/building-blocks-of-life-found-in-ice-deep-in-the-darkest-regions-of-interstellar-space"
       },
       {
         "id": "b",
@@ -75,7 +78,8 @@
         "isTrue": true,
         "image": "/images/ai_gambling_bots.png",
         "source": "TechCrunch",
-        "date": "Jan 12, 2024"
+        "date": "Jan 12, 2024",
+        "url": "https://decrypt.co/293586/ai-models-develop-gambling-addiction-simulated-tests"
       },
       {
         "id": "b",
@@ -97,7 +101,8 @@
         "isTrue": true,
         "image": "/images/osprey_wildfire.png",
         "source": "CBC News",
-        "date": "Aug 15, 2023"
+        "date": "Aug 15, 2023",
+        "url": "https://www.cbc.ca/news/canada/british-columbia/osprey-fish-power-line-fire-1.7286768"
       },
       {
         "id": "b",
@@ -119,7 +124,8 @@
         "isTrue": true,
         "image": "/images/asteroid_mission.png",
         "source": "Space.com",
-        "date": "Mar 05, 2024"
+        "date": "Mar 05, 2024",
+        "url": "https://www.livescience.com/space/asteroids/nasa-reinstates-mission-to-god-of-chaos-asteroid-apophis-after-it-was-slated-for-cancellation"
       },
       {
         "id": "b",
@@ -141,7 +147,8 @@
         "isTrue": true,
         "image": "/images/plane_toenails.png",
         "source": "New York Post",
-        "date": "Jan 20, 2024"
+        "date": "Jan 20, 2024",
+        "url": "https://www.vice.com/en/article/flight-attendant-finds-toenails-on-plane-floor/"
       },
       {
         "id": "b",
@@ -163,7 +170,8 @@
         "isTrue": true,
         "image": "/images/hydrogen_battery_cold.png",
         "source": "Science Daily",
-        "date": "Feb 10, 2024"
+        "date": "Feb 10, 2024",
+        "url": "https://www.livescience.com/technology/engineering/new-hydrogen-battery-operates-at-temperatures-4-times-colder-than-previous-versions"
       },
       {
         "id": "b",
@@ -185,7 +193,8 @@
         "isTrue": true,
         "image": "/images/gorilla_on_roof.png",
         "source": "BBC News",
-        "date": "Mar 08, 2024"
+        "date": "Mar 08, 2024",
+        "url": "https://www.dailystar.co.uk/news/latest-news/woman-fighting-council-keep-4ft-33656852"
       },
       {
         "id": "b",
@@ -207,7 +216,8 @@
         "isTrue": true,
         "image": "/images/night_vision_contacts.png",
         "source": "Advanced Materials",
-        "date": "Jan 30, 2024"
+        "date": "Jan 30, 2024",
+        "url": "https://www.independent.co.uk/tech/night-vision-contact-lenses-infrared-b2561664.html"
       },
       {
         "id": "b",
