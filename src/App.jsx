@@ -201,7 +201,9 @@ function App() {
           <div className="user-welcome">
             <p>Welcome, {user.displayName}!</p>
             <button className="start-button" onClick={handleStartGame}>Start Game</button>
-            <button className="admin-link" onClick={() => setView('admin')}>Admin Dashboard</button>
+            {user.email === 'gil.from@gmail.com' && (
+              <button className="admin-link" onClick={() => setView('admin')}>Admin Dashboard</button>
+            )}
             <button className="logout-button-intro" onClick={handleLogout}>Logout</button>
           </div>
         ) : (
