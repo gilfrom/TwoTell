@@ -13,7 +13,7 @@ serve(async (req) => {
     }
 
     try {
-        const { action, roundId, query } = await req.json()
+        const { action, roundId, query, cardType } = await req.json()
 
         // Create Supabase client with Service Role Key for admin access
         const supabaseClient = createClient(
@@ -24,6 +24,7 @@ serve(async (req) => {
         if (action === 'regenerate_image') {
             if (!query) throw new Error('Query is required')
             if (!roundId) throw new Error('Round ID is required')
+            if (!cardType) throw new Error('Card type is required')
 
             const apiKey = Deno.env.get('VALUESERP_API_KEY')
             if (!apiKey) throw new Error('VALUESERP_API_KEY not set')
@@ -44,10 +45,13 @@ serve(async (req) => {
 
             console.log(`Selected image: ${imageUrl}`)
 
+            // Determine which field to update based on cardType
+            const imageField = cardType === 'true' ? 'true_fact_image_url' : 'false_claim_image_url';
+
             // Update the round in the database
             const { error: updateError } = await supabaseClient
                 .from('prepared_game_rounds')
-                .update({ true_fact_image_url: imageUrl })
+                .update({ [imageField]: imageUrl })
                 .eq('id', roundId)
 
             if (updateError) throw updateError
