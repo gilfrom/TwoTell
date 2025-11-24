@@ -88,7 +88,15 @@ const ContentManager = ({ onBack }) => {
                 }
             });
 
-            if (error) throw error;
+            if (error) {
+                console.error('Edge Function Error:', error);
+                throw error;
+            }
+
+            if (data && data.error) {
+                console.error('Edge Function returned error:', data.error);
+                throw new Error(data.error);
+            }
 
             // Update local state with new image
             const updatedRounds = [...rounds];
@@ -101,7 +109,7 @@ const ContentManager = ({ onBack }) => {
             alert('Image updated!');
         } catch (error) {
             console.error('Error updating image:', error);
-            alert('Failed to update image: ' + error.message);
+            alert('Failed to update image: ' + (error.message || JSON.stringify(error)));
         } finally {
             setLoading(false);
         }
