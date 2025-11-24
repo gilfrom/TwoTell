@@ -32,12 +32,12 @@ export function ClaimCard({ claim, isSelected, isRevealed, onSelect }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             whileTap={!isRevealed ? { scale: 0.98 } : {}}
-            className={`h-full flex flex-col rounded-2xl border-2 overflow-hidden shadow-lg transition-all cursor-pointer ${getBorderColor()} ${getBackgroundColor()} ${isSelected && !isRevealed ? 'ring-4 ring-white/50' : ''
+            className={`flex flex-col rounded-2xl border-2 overflow-hidden shadow-lg transition-all cursor-pointer bg-white ${getBorderColor()} ${getBackgroundColor()} ${isSelected && !isRevealed ? 'ring-4 ring-white/50' : ''
                 }`}
             onClick={onSelect}
         >
-            {/* Image - Takes about 40% of card height */}
-            <div className="relative h-2/5 min-h-[80px] bg-gray-200 overflow-hidden shrink-0">
+            {/* Image - Fixed height */}
+            <div className="relative h-32 bg-gray-200 overflow-hidden shrink-0">
                 {imageUrl && (
                     <img
                         src={imageUrl}

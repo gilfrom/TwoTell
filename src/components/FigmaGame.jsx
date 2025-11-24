@@ -141,9 +141,9 @@ export default function FigmaGame({ onBack }) {
             </div>
 
             {/* Game Area */}
-            <div className="flex-1 overflow-hidden flex flex-col px-4 py-2 gap-3 pb-safe">
+            <div className="flex-1 overflow-hidden flex flex-col justify-center px-4 py-2 gap-4 pb-safe">
                 {currentClaims.map((claim) => (
-                    <div key={claim.id} className="flex-1 min-h-0">
+                    <div key={claim.id} className="w-full max-w-md mx-auto">
                         <ClaimCard
                             claim={claim}
                             isSelected={selectedClaim === claim.id}
@@ -164,16 +164,6 @@ export default function FigmaGame({ onBack }) {
                     isLastRound={currentRound >= totalRounds - 1}
                 />
             )}
-
-            {/* Back Button */}
-            <div className="fixed top-4 right-4">
-                <button
-                    onClick={onBack}
-                    className="bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-lg hover:bg-white/30 transition"
-                >
-                    Exit
-                </button>
-            </div>
         </div>
     );
 }
