@@ -4,6 +4,8 @@ import { supabase } from '../supabase';
 import { collection, addDoc, getDocs, query, where, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import './AdminDashboard.css';
 
+import ContentManager from './ContentManager';
+
 const AdminDashboard = ({ onBack }) => {
     const [drafts, setDrafts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -12,6 +14,7 @@ const AdminDashboard = ({ onBack }) => {
     const [repairDaysBack, setRepairDaysBack] = useState(7);
     const [repairForceRefresh, setRepairForceRefresh] = useState(false);
     const [repairMode, setRepairMode] = useState('repair');
+    const [currentView, setCurrentView] = useState('dashboard'); // 'dashboard' or 'content-manager'
 
     useEffect(() => {
         fetchDrafts();
@@ -24,6 +27,7 @@ const AdminDashboard = ({ onBack }) => {
         setDrafts(draftsData);
     };
 
+    // ... (keep existing scan functions: scanReddit, handleScanFakeClaims, handleScanTrueFacts, handlePrepareGameRound, handleRepairGameRounds) ...
     const scanReddit = async () => {
         setLoading(true);
         try {
@@ -215,6 +219,10 @@ const AdminDashboard = ({ onBack }) => {
         }
     }
 
+    if (currentView === 'content-manager') {
+        return <ContentManager onBack={() => setCurrentView('dashboard')} />;
+    }
+
     return (
         <div className="admin-dashboard">
             <div className="admin-header">
@@ -223,47 +231,51 @@ const AdminDashboard = ({ onBack }) => {
             </div>
 
             <div className="admin-actions">
-                <button className="scan-button" onClick={handleScanFakeClaims} disabled={loading} style={{ backgroundColor: '#e91e63' }}>
-                    {loading ? 'Scanning...' : 'Scan for Fake Claims'}
-                </button>
-                <button className="scan-button" onClick={handleScanTrueFacts} disabled={loading} style={{ backgroundColor: '#2196f3', marginLeft: '10px' }}>
-                    {loading ? 'Scanning...' : 'Scan True Facts (Perplexity)'}
-                </button>
-                <button className="scan-button" onClick={handlePrepareGameRound} disabled={loading} style={{ backgroundColor: '#4caf50', marginLeft: '10px' }}>
-                    {loading ? 'Scanning...' : 'Prepare Game Round'}
+                <button className="scan-button" onClick={() => setCurrentView('content-manager')} style={{ backgroundColor: '#9c27b0', width: '100%', marginBottom: '15px', padding: '15px', fontSize: '1.1em' }}>
+                    Manage Content (Review & Edit)
                 </button>
 
-                <div style={{ display: 'inline-flex', alignItems: 'center', marginLeft: '20px', border: '1px solid #ccc', padding: '5px', borderRadius: '5px' }}>
-                    <label style={{ marginRight: '5px', fontSize: '12px' }}>Mode:</label>
+                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '20px' }}>
+                    <button className="scan-button" onClick={handleScanFakeClaims} disabled={loading} style={{ backgroundColor: '#e91e63' }}>
+                        {loading ? 'Scanning...' : 'Scan for Fake Claims'}
+                    </button>
+                    <button className="scan-button" onClick={handleScanTrueFacts} disabled={loading} style={{ backgroundColor: '#2196f3' }}>
+                        {loading ? 'Scanning...' : 'Scan True Facts (Perplexity)'}
+                    </button>
+                    <button className="scan-button" onClick={handlePrepareGameRound} disabled={loading} style={{ backgroundColor: '#4caf50' }}>
+                        {loading ? 'Scanning...' : 'Prepare Game Round'}
+                    </button>
+                </div>
+
+                <div style={{ display: 'inline-flex', alignItems: 'center', border: '1px solid #ccc', padding: '10px', borderRadius: '5px', flexWrap: 'wrap', gap: '10px' }}>
+                    <label style={{ fontSize: '12px' }}>Mode:</label>
                     <select
                         value={repairMode}
                         onChange={(e) => setRepairMode(e.target.value)}
-                        style={{ marginRight: '10px', fontSize: '12px' }}
+                        style={{ fontSize: '12px' }}
                     >
                         <option value="incremental">Incremental</option>
                         <option value="full">Full</option>
                         <option value="repair">Repair</option>
                     </select>
-                    <label style={{ marginRight: '5px', fontSize: '12px' }}>Days Back:</label>
+                    <label style={{ fontSize: '12px' }}>Days Back:</label>
                     <input
                         type="number"
                         value={repairDaysBack}
                         onChange={(e) => setRepairDaysBack(e.target.value)}
-                        style={{ width: '50px', marginRight: '10px' }}
+                        style={{ width: '50px' }}
                     />
-                    <label style={{ marginRight: '5px', fontSize: '12px' }}>Force Refresh:</label>
+                    <label style={{ fontSize: '12px' }}>Force Refresh:</label>
                     <input
                         type="checkbox"
                         checked={repairForceRefresh}
                         onChange={(e) => setRepairForceRefresh(e.target.checked)}
                     />
-                    <button className="scan-button" onClick={handleRepairGameRounds} disabled={loading} style={{ backgroundColor: '#ff9800', marginLeft: '10px', fontSize: '12px', padding: '5px 10px' }}>
+                    <button className="scan-button" onClick={handleRepairGameRounds} disabled={loading} style={{ backgroundColor: '#ff9800', fontSize: '12px', padding: '5px 10px' }}>
                         {loading ? 'Scanning...' : 'Repair Game Rounds'}
                     </button>
                 </div>
             </div>
-
-
         </div>
     );
 };
