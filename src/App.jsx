@@ -6,6 +6,7 @@ import { supabase } from './supabase'
 import { onAuthStateChanged } from 'firebase/auth'
 import { collection, getDocs, query, where } from 'firebase/firestore'
 import AdminDashboard from './components/AdminDashboard'
+import FigmaGame from './components/FigmaGame'
 
 const shuffleArray = (array) => {
   const newArray = [...array];
@@ -26,7 +27,7 @@ function App() {
   const [gameStarted, setGameStarted] = useState(false)
   const [gameFinished, setGameFinished] = useState(false)
   const [user, setUser] = useState(null)
-  const [view, setView] = useState('game'); // 'game' or 'admin'
+  const [view, setView] = useState('game'); // 'game', 'admin', or 'figma'
 
   const currentQuestion = questions[currentQuestionIndex]
 
@@ -186,6 +187,10 @@ function App() {
     return <AdminDashboard onBack={() => setView('game')} />;
   }
 
+  if (view === 'figma') {
+    return <FigmaGame onBack={() => setView('game')} />;
+  }
+
   if (!gameStarted) {
     return (
       <div className="app-container intro-screen">
@@ -201,6 +206,7 @@ function App() {
           <div className="user-welcome">
             <p>Welcome, {user.displayName}!</p>
             <button className="start-button" onClick={handleStartGame}>Start Game</button>
+            <button className="start-button" onClick={() => setView('figma')} style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}>Try New UI ✨</button>
             {user.email === 'gil.from@gmail.com' && (
               <button className="admin-link" onClick={() => setView('admin')}>Admin Dashboard</button>
             )}
