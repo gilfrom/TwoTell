@@ -71,7 +71,7 @@ export function ClaimCard({ claim, isSelected, isRevealed, onSelect }) {
                     <span className="text-sm">{claim.postedDate}</span>
                 </div>
 
-                <h3 className="text-lg font-semibold mb-3">{claim.headline}</h3>
+                <h3 className="text-lg font-semibold mb-3 text-gray-900">{claim.headline}</h3>
 
                 {/* Source Info (shown when revealed) */}
                 {isRevealed && (
@@ -83,7 +83,7 @@ export function ClaimCard({ claim, isSelected, isRevealed, onSelect }) {
                         <div className="flex items-start justify-between gap-2">
                             <div>
                                 <div className="text-sm text-gray-600 mb-1">Source</div>
-                                <div className="text-sm font-medium">{claim.sourceName}</div>
+                                <div className="text-sm font-medium text-gray-900">{claim.sourceName}</div>
                             </div>
                             <a
                                 href={claim.sourceUrl}

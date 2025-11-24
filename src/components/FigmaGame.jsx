@@ -90,7 +90,7 @@ export default function FigmaGame({ onBack }) {
                     <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Trophy className="w-12 h-12 text-white" />
                     </div>
-                    <h1 className="text-3xl font-bold mb-2">Game Complete!</h1>
+                    <h1 className="text-3xl font-bold mb-2 text-gray-900">Game Complete!</h1>
                     <p className="text-gray-600 mb-6">
                         You've completed all {totalRounds} rounds
                     </p>

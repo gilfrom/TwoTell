@@ -21,7 +21,7 @@ export function ResultModal({ isCorrect, trueClaim, falseClaim, onNext, isLastRo
                             )}
                         </div>
                         <div>
-                            <h2 className="text-2xl font-bold">
+                            <h2 className="text-2xl font-bold text-gray-900">
                                 {isCorrect ? 'Correct!' : 'Incorrect'}
                             </h2>
                             <p className="text-gray-600">
