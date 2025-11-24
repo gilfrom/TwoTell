@@ -123,8 +123,8 @@ const ContentManager = ({ onBack }) => {
                 {/* True Fact Card */}
                 <div className="card correct" style={{ cursor: 'default', height: 'auto', minHeight: '400px' }}>
                     <div className="card-image" style={{ height: '200px' }}>
-                        {round.image_url ? (
-                            <img src={round.image_url} alt="Fact" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        {round.true_fact_image_url ? (
+                            <img src={round.true_fact_image_url} alt="Fact" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
                             <div style={{ padding: '20px', color: '#aaa', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#333' }}>No Image</div>
                         )}
@@ -139,8 +139,8 @@ const ContentManager = ({ onBack }) => {
                 {/* False Claim Card */}
                 <div className="card incorrect" style={{ cursor: 'default', height: 'auto', minHeight: '400px' }}>
                     <div className="card-image" style={{ height: '200px' }}>
-                        {round.image_url ? (
-                            <img src={round.image_url} alt="Fact" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        {round.true_fact_image_url ? (
+                            <img src={round.true_fact_image_url} alt="Fact" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
                             <div style={{ padding: '20px', color: '#aaa', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#333' }}>No Image</div>
                         )}

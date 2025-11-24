@@ -47,7 +47,7 @@ serve(async (req) => {
             // Update the round in the database
             const { error: updateError } = await supabaseClient
                 .from('prepared_game_rounds')
-                .update({ image_url: imageUrl })
+                .update({ true_fact_image_url: imageUrl })
                 .eq('id', roundId)
 
             if (updateError) throw updateError
