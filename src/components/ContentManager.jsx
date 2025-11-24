@@ -77,6 +77,13 @@ const ContentManager = ({ onBack }) => {
         const round = rounds[currentIndex];
         if (!round) return;
 
+        // Prompt user for search query with default value
+        const defaultQuery = cardType === 'true' ? round.true_fact_headline : round.false_claim_text;
+        const searchQuery = prompt('Enter search query for image:', defaultQuery);
+
+        // If user cancels, don't proceed
+        if (searchQuery === null || searchQuery.trim() === '') return;
+
         setLoading(true);
         try {
             const { data, error } = await supabase.functions.invoke('manage-game-round', {
@@ -84,7 +91,7 @@ const ContentManager = ({ onBack }) => {
                     action: 'regenerate_image',
                     roundId: round.id,
                     cardType: cardType, // 'true' or 'false'
-                    query: cardType === 'true' ? round.true_fact_headline : round.false_claim_text
+                    query: searchQuery.trim()
                 }
             });
 
