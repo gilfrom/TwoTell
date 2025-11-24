@@ -32,12 +32,12 @@ export function ClaimCard({ claim, isSelected, isRevealed, onSelect }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             whileTap={!isRevealed ? { scale: 0.98 } : {}}
-            className={`rounded-2xl border-2 overflow-hidden shadow-lg transition-all cursor-pointer ${getBorderColor()} ${getBackgroundColor()} ${isSelected && !isRevealed ? 'ring-4 ring-white/50' : ''
+            className={`h-full flex flex-col rounded-2xl border-2 overflow-hidden shadow-lg transition-all cursor-pointer ${getBorderColor()} ${getBackgroundColor()} ${isSelected && !isRevealed ? 'ring-4 ring-white/50' : ''
                 }`}
             onClick={onSelect}
         >
-            {/* Image */}
-            <div className="relative h-48 bg-gray-200 overflow-hidden">
+            {/* Image - Takes about 40% of card height */}
+            <div className="relative h-2/5 min-h-[80px] bg-gray-200 overflow-hidden shrink-0">
                 {imageUrl && (
                     <img
                         src={imageUrl}
@@ -52,44 +52,44 @@ export function ClaimCard({ claim, isSelected, isRevealed, onSelect }) {
                     <motion.div
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className={`absolute top-4 right-4 rounded-full p-2 ${claim.isTrue ? 'bg-green-500' : 'bg-red-500'
+                        className={`absolute top-2 right-2 rounded-full p-1.5 ${claim.isTrue ? 'bg-green-500' : 'bg-red-500'
                             } shadow-lg`}
                     >
                         {claim.isTrue ? (
-                            <CheckCircle2 className="w-6 h-6 text-white" />
+                            <CheckCircle2 className="w-5 h-5 text-white" />
                         ) : (
-                            <XCircle className="w-6 h-6 text-white" />
+                            <XCircle className="w-5 h-5 text-white" />
                         )}
                     </motion.div>
                 )}
             </div>
 
-            {/* Content */}
-            <div className="p-4">
-                <div className="flex items-center gap-2 mb-2 text-gray-500">
-                    <Clock className="w-4 h-4" />
-                    <span className="text-sm">{claim.postedDate}</span>
+            {/* Content - Takes remaining space */}
+            <div className="p-3 flex-1 flex flex-col">
+                <div className="flex items-center gap-2 mb-1 text-gray-500 shrink-0">
+                    <Clock className="w-3 h-3" />
+                    <span className="text-xs">{claim.postedDate}</span>
                 </div>
 
-                <h3 className="text-lg font-semibold mb-3 text-gray-900">{claim.headline}</h3>
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 leading-tight line-clamp-4">{claim.headline}</h3>
 
                 {/* Source Info (shown when revealed) */}
                 {isRevealed && (
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
-                        className="mt-4 pt-4 border-t border-gray-200"
+                        className="mt-auto pt-2 border-t border-gray-200 shrink-0"
                     >
                         <div className="flex items-start justify-between gap-2">
                             <div>
-                                <div className="text-sm text-gray-600 mb-1">Source</div>
-                                <div className="text-sm font-medium text-gray-900">{claim.sourceName}</div>
+                                <div className="text-xs text-gray-600">Source</div>
+                                <div className="text-xs font-medium text-gray-900 truncate max-w-[120px]">{claim.sourceName}</div>
                             </div>
                             <a
                                 href={claim.sourceUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-sm text-blue-600 hover:text-blue-700 underline whitespace-nowrap"
+                                className="text-xs text-blue-600 hover:text-blue-700 underline whitespace-nowrap"
                                 onClick={(e) => e.stopPropagation()}
                             >
                                 View Source →

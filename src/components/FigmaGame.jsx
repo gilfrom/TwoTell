@@ -141,18 +141,17 @@ export default function FigmaGame({ onBack }) {
             </div>
 
             {/* Game Area */}
-            <div className="flex-1 overflow-y-auto overflow-x-hidden">
-                <div className="max-w-md mx-auto px-4 py-6 space-y-4 pb-24">
-                    {currentClaims.map((claim) => (
+            <div className="flex-1 overflow-hidden flex flex-col px-4 py-2 gap-3 pb-safe">
+                {currentClaims.map((claim) => (
+                    <div key={claim.id} className="flex-1 min-h-0">
                         <ClaimCard
-                            key={claim.id}
                             claim={claim}
                             isSelected={selectedClaim === claim.id}
                             isRevealed={selectedClaim !== null}
                             onSelect={() => handleClaimSelect(claim.id)}
                         />
-                    ))}
-                </div>
+                    </div>
+                ))}
             </div>
 
             {/* Result Modal */}
