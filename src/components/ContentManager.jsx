@@ -53,23 +53,36 @@ const ContentManager = ({ onBack }) => {
     };
 
     const handleDelete = async () => {
-        if (!confirm('Are you sure you want to delete this round?')) return;
+        if (!confirm('Are you sure you want to delete this round? This cannot be undone.')) return;
 
         const round = rounds[currentIndex];
-        const { error } = await supabase
-            .from('prepared_game_rounds')
-            .delete()
-            .eq('id', round.id);
+        console.log('Attempting to delete round:', round.id);
 
-        if (error) {
-            alert('Error deleting round: ' + error.message);
-        } else {
+        try {
+            const { error, data } = await supabase
+                .from('prepared_game_rounds')
+                .delete()
+                .eq('id', round.id)
+                .select();
+
+            if (error) {
+                console.error('Delete error:', error);
+                alert('Error deleting round: ' + error.message);
+                return;
+            }
+
+            console.log('Delete successful:', data);
+            alert('Round deleted successfully!');
+
             // Remove from local state
             const newRounds = rounds.filter(r => r.id !== round.id);
             setRounds(newRounds);
             if (currentIndex >= newRounds.length) {
                 setCurrentIndex(Math.max(0, newRounds.length - 1));
             }
+        } catch (err) {
+            console.error('Delete exception:', err);
+            alert('Failed to delete: ' + err.message);
         }
     };
 
