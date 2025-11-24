@@ -123,9 +123,9 @@ export default function FigmaGame({ onBack }) {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-purple-600 to-blue-600 pb-safe">
+        <div className="h-[100dvh] w-full overflow-hidden bg-gradient-to-b from-purple-600 to-blue-600 flex flex-col">
             {/* Header */}
-            <div className="bg-white/10 backdrop-blur-sm border-b border-white/20">
+            <div className="flex-none bg-white/10 backdrop-blur-sm border-b border-white/20 z-10">
                 <div className="max-w-md mx-auto px-4 py-4">
                     <div className="flex items-center justify-between mb-2">
                         <h1 className="text-2xl font-bold text-white">TwoTell</h1>
@@ -141,16 +141,18 @@ export default function FigmaGame({ onBack }) {
             </div>
 
             {/* Game Area */}
-            <div className="max-w-md mx-auto px-4 py-6 space-y-4 pb-40">
-                {currentClaims.map((claim) => (
-                    <ClaimCard
-                        key={claim.id}
-                        claim={claim}
-                        isSelected={selectedClaim === claim.id}
-                        isRevealed={selectedClaim !== null}
-                        onSelect={() => handleClaimSelect(claim.id)}
-                    />
-                ))}
+            <div className="flex-1 overflow-y-auto overflow-x-hidden">
+                <div className="max-w-md mx-auto px-4 py-6 space-y-4 pb-24">
+                    {currentClaims.map((claim) => (
+                        <ClaimCard
+                            key={claim.id}
+                            claim={claim}
+                            isSelected={selectedClaim === claim.id}
+                            isRevealed={selectedClaim !== null}
+                            onSelect={() => handleClaimSelect(claim.id)}
+                        />
+                    ))}
+                </div>
             </div>
 
             {/* Result Modal */}
