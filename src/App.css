@@ -11,6 +11,8 @@
   align-items: center;
   gap: 2rem;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 header h1 {
@@ -401,6 +403,8 @@ button:focus-visible {
   cursor: pointer;
   transition: background-color 0.2s;
   font-weight: bold;
+  position: relative;
+  z-index: 50;
 }
 
 .login-button:hover {
