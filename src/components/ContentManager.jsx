@@ -121,34 +121,34 @@ const ContentManager = ({ onBack }) => {
 
             <div className="cards-container" style={{ flexDirection: 'row', flexWrap: 'wrap', gap: '20px', marginBottom: '20px' }}>
                 {/* True Fact Card */}
-                <div className="card correct" style={{ cursor: 'default' }}>
-                    <div className="card-image">
+                <div className="card correct" style={{ cursor: 'default', height: 'auto', minHeight: '400px' }}>
+                    <div className="card-image" style={{ height: '200px' }}>
                         {round.image_url ? (
-                            <img src={round.image_url} alt="Fact" />
+                            <img src={round.image_url} alt="Fact" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
-                            <div style={{ padding: '20px', color: '#aaa' }}>No Image</div>
+                            <div style={{ padding: '20px', color: '#aaa', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#333' }}>No Image</div>
                         )}
                     </div>
                     <div className="card-content">
-                        <p>{round.true_fact}</p>
-                        <div className="result-indicator">✅ TRUE</div>
-                        <div className="source-date">{new Date(round.true_fact_posted_date).toLocaleDateString()}</div>
+                        <p style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '10px' }}>{round.true_fact}</p>
+                        <div className="result-indicator" style={{ fontSize: '0.9rem', padding: '5px 10px', marginTop: 'auto' }}>✅ TRUE</div>
+                        <div className="source-date" style={{ marginTop: '5px' }}>{new Date(round.true_fact_posted_date).toLocaleDateString()}</div>
                     </div>
                 </div>
 
                 {/* False Claim Card */}
-                <div className="card incorrect" style={{ cursor: 'default' }}>
-                    <div className="card-image">
+                <div className="card incorrect" style={{ cursor: 'default', height: 'auto', minHeight: '400px' }}>
+                    <div className="card-image" style={{ height: '200px' }}>
                         {round.image_url ? (
-                            <img src={round.image_url} alt="Fact" />
+                            <img src={round.image_url} alt="Fact" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
-                            <div style={{ padding: '20px', color: '#aaa' }}>No Image</div>
+                            <div style={{ padding: '20px', color: '#aaa', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#333' }}>No Image</div>
                         )}
                     </div>
                     <div className="card-content">
-                        <p>{round.false_claim}</p>
-                        <div className="result-indicator">❌ {round.textual_rating}</div>
-                        <div className="source-date">{new Date(round.false_claim_posted_date).toLocaleDateString()}</div>
+                        <p style={{ fontSize: '1.1rem', fontWeight: 'bold', marginBottom: '10px' }}>{round.false_claim}</p>
+                        <div className="result-indicator" style={{ fontSize: '0.9rem', padding: '5px 10px', marginTop: 'auto' }}>❌ {round.textual_rating}</div>
+                        <div className="source-date" style={{ marginTop: '5px' }}>{new Date(round.false_claim_posted_date).toLocaleDateString()}</div>
                     </div>
                 </div>
             </div>
