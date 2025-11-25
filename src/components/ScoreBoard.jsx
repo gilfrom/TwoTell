@@ -1,10 +1,10 @@
 import { Trophy } from 'lucide-react';
 
-export function ScoreBoard({ score }) {
+export function ScoreBoard({ score, className = "" }) {
     return (
-        <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full">
-            <Trophy className="w-4 h-4 text-yellow-300" />
-            <span className="text-white font-bold">{score}</span>
+        <div className={`flex items-center gap-1 bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-white/10 ${className}`}>
+            <Trophy className="w-3.5 h-3.5 text-yellow-300" />
+            <span className="text-white/90 font-bold text-xs">{score}</span>
         </div>
     );
 }

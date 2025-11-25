@@ -1,4 +1,5 @@
 import { Trophy, Medal, Share2, Bell } from 'lucide-react';
+import logo from '../assets/logo.png';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from './ui/button';
@@ -80,9 +81,7 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
                 <div className="bg-white rounded-3xl max-w-md w-full shadow-2xl overflow-hidden relative z-10">
                     {/* Header */}
                     <div className="bg-gradient-to-r from-purple-600 to-blue-600 p-6 text-center text-white">
-                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center mx-auto mb-3">
-                            <Trophy className="w-10 h-10 text-white" />
-                        </div>
+                        <img src={logo} alt="TwoTell" className="h-16 w-auto object-contain mx-auto mb-3" />
                         <h1 className="mb-1 text-2xl font-bold">Game Complete!</h1>
                         <p className="text-white/90">Today's Leaderboard</p>
                         <p className="text-white/70 text-sm">{today}</p>

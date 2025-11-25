@@ -69,7 +69,7 @@ function App() {
       } />
 
       <Route path="/game" element={
-        user ? <FigmaGame onBack={handleLogout} /> : <Navigate to="/" replace />
+        user ? <FigmaGame user={user} onBack={handleLogout} /> : <Navigate to="/" replace />
       } />
 
       <Route path="/admin" element={

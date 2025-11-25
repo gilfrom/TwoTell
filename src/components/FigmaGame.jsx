@@ -5,7 +5,10 @@ import { ScoreBoard } from './ScoreBoard';
 import { ResultModal } from './ResultModal';
 import { Leaderboard } from './Leaderboard';
 
-export default function FigmaGame({ onBack }) {
+import { ArrowLeft, LogOut } from 'lucide-react';
+import logo from '../assets/logo.png';
+
+export default function FigmaGame({ onBack, user }) {
     const [gameData, setGameData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentRound, setCurrentRound] = useState(0);
@@ -107,6 +110,15 @@ export default function FigmaGame({ onBack }) {
         setGameFinished(false);
     };
 
+    const handleBack = () => {
+        if (currentRound > 0) {
+            setCurrentRound(currentRound - 1);
+            setSelectedClaim(null);
+        } else {
+            onBack();
+        }
+    };
+
     if (loading) {
         return (
             <div className="h-[100dvh] w-full bg-gradient-to-b from-purple-600 to-blue-600 flex items-center justify-center">
@@ -144,16 +156,46 @@ export default function FigmaGame({ onBack }) {
         <div className="fixed inset-0 w-full overflow-hidden bg-gradient-to-b from-purple-600 to-blue-600 flex flex-col touch-none">
             {/* Header */}
             <div className="flex-none bg-white/10 backdrop-blur-sm border-b border-white/20 z-10 pt-safe">
-                <div className="max-w-md mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between mb-2">
-                        <h1 className="text-2xl font-bold text-white">TwoTell</h1>
-                        <ScoreBoard score={score} />
-                    </div>
-                    <div className="flex items-center justify-between">
-                        <p className="text-white/90">Which claim is true?</p>
-                        <div className="text-white/80 text-sm">
-                            Round {currentRound + 1}/{totalRounds}
+                <div className="max-w-md mx-auto px-4 py-2 flex flex-col gap-2">
+                    {/* Top Row: Back - Logo - Logout */}
+                    <div className="flex items-center justify-between relative h-10">
+                        <button
+                            onClick={handleBack}
+                            className="p-1 text-white hover:text-white/80 bg-transparent transition"
+                        >
+                            <ArrowLeft className="w-6 h-6" />
+                        </button>
+
+                        <img src={logo} alt="TwoTell" className="h-12 w-auto object-contain absolute left-1/2 -translate-x-1/2" />
+
+                        <div className="w-8 flex justify-end">
+                            {!user?.isAnonymous && (
+                                <button
+                                    onClick={onBack}
+                                    className="p-1 text-white hover:text-white/80 bg-transparent transition"
+                                    title="Logout"
+                                >
+                                    <LogOut className="w-6 h-6" />
+                                </button>
+                            )}
                         </div>
+                    </div>
+
+                    {/* Bottom Row: Round - Question - Score */}
+                    <div className="flex items-center justify-between relative h-9">
+                        {/* Left: Round Info */}
+                        <div className="w-24 flex justify-center bg-white/10 backdrop-blur-sm px-3 py-1.5 rounded-full text-white/90 text-xs font-medium border border-white/10 items-center gap-1">
+                            <span className="opacity-70">Round</span>
+                            <span className="font-bold">{currentRound + 1}/{totalRounds}</span>
+                        </div>
+
+                        {/* Center: Question */}
+                        <p className="text-white/90 font-medium text-sm absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
+                            Which claim is true?
+                        </p>
+
+                        {/* Right: Score */}
+                        <ScoreBoard score={score} className="w-24 justify-center" />
                     </div>
                 </div>
             </div>

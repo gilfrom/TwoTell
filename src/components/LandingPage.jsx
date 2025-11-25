@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Shield, CheckCircle2, XCircle, Zap } from 'lucide-react';
 import { Button } from './ui/button';
+import logo from '../assets/logo.png';
 
 export function LandingPage({ onPlayAsGuest, onLoginWithGoogle }) {
     return (
@@ -18,29 +19,11 @@ export function LandingPage({ onPlayAsGuest, onLoginWithGoogle }) {
                         transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
                         className="mb-6"
                     >
-                        <div className="inline-flex items-center justify-center w-24 h-24 bg-white rounded-3xl shadow-2xl mb-4">
-                            <div className="relative">
-                                <CheckCircle2 className="w-10 h-10 text-green-500 absolute -left-3" />
-                                <XCircle className="w-10 h-10 text-red-500 absolute left-3" />
-                            </div>
+                        <div className="flex justify-center mb-4">
+                            <img src={logo} alt="TwoTell Logo" className="h-24 object-contain" />
                         </div>
-                        <motion.h1
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.4 }}
-                            className="text-white mb-2 text-4xl font-bold"
-                        >
-                            TwoTell
-                        </motion.h1>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.5 }}
-                            className="flex items-center justify-center gap-2 text-white/90 text-sm"
-                        >
-                            <Shield className="w-4 h-4" />
-                            <span>Truth Detective Game</span>
-                        </motion.div>
+
+
                     </motion.div>
 
                     {/* Tagline */}
