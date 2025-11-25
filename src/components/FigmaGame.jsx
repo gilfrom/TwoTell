@@ -1,130 +1,71 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { supabase } from '../supabase';
 import { ClaimCard } from './ClaimCard';
 import { ScoreBoard } from './ScoreBoard';
 import { ResultModal } from './ResultModal';
 import { Leaderboard } from './Leaderboard';
 
-const GAME_DATA = [
-    [
-        {
-            id: '1a',
-            headline: 'Scientists Discover New Species of Bioluminescent Jellyfish in Mariana Trench',
-            image: 'ocean jellyfish bioluminescent',
-            postedDate: 'November 22, 2025',
-            isTrue: true,
-            sourceUrl: 'https://example.com/jellyfish-discovery',
-            sourceName: 'Nature Magazine',
-            author: 'Dr. Jane Smith'
-        },
-        {
-            id: '1b',
-            headline: 'Elon Musk Announces Plans to Build Underground City on Mars by 2026',
-            image: 'mars colony futuristic',
-            postedDate: 'November 23, 2025',
-            isTrue: false,
-            sourceUrl: 'https://example.com/fake-mars-city',
-            sourceName: 'Debunked by Fact Checkers',
-            author: 'John Doe'
-        }
-    ],
-    [
-        {
-            id: '2a',
-            headline: 'New Study Shows Drinking Coffee Can Extend Lifespan by 20 Years',
-            image: 'coffee cup morning',
-            postedDate: 'November 24, 2025',
-            isTrue: false,
-            sourceUrl: 'https://example.com/fake-coffee-study',
-            sourceName: 'Debunked by Medical Experts',
-            author: 'Dr. Emily Johnson'
-        },
-        {
-            id: '2b',
-            headline: 'NASA Successfully Tests New Ion Propulsion System for Deep Space Missions',
-            image: 'space rocket engine',
-            postedDate: 'November 17, 2025',
-            isTrue: true,
-            sourceUrl: 'https://example.com/nasa-ion-propulsion',
-            sourceName: 'NASA Official',
-            author: 'NASA Team'
-        }
-    ],
-    [
-        {
-            id: '3a',
-            headline: 'Tokyo 2025 Olympics to Feature Competitive Video Gaming as Official Sport',
-            image: 'esports gaming tournament',
-            postedDate: 'November 21, 2025',
-            isTrue: false,
-            sourceUrl: 'https://example.com/fake-olympics',
-            sourceName: 'Debunked by IOC',
-            author: 'IOC Staff'
-        },
-        {
-            id: '3b',
-            headline: 'Archaeologists Uncover 3,000-Year-Old Bronze Age Settlement in Scotland',
-            image: 'archaeology excavation ancient',
-            postedDate: 'November 20, 2025',
-            isTrue: true,
-            sourceUrl: 'https://example.com/scotland-settlement',
-            sourceName: 'BBC News',
-            author: 'BBC Reporter'
-        }
-    ],
-    [
-        {
-            id: '4a',
-            headline: 'Researchers Develop AI That Can Predict Earthquakes 48 Hours in Advance',
-            image: 'artificial intelligence technology',
-            postedDate: 'November 10, 2025',
-            isTrue: true,
-            sourceUrl: 'https://example.com/earthquake-ai',
-            sourceName: 'Science Daily',
-            author: 'Dr. Alex Brown'
-        },
-        {
-            id: '4b',
-            headline: 'Bill Gates Secretly Bought All Farmland in Iowa to Control Food Supply',
-            image: 'farm field agriculture',
-            postedDate: 'November 24, 2025',
-            isTrue: false,
-            sourceUrl: 'https://example.com/fake-gates-farmland',
-            sourceName: 'Debunked by Snopes',
-            author: 'Snopes Team'
-        }
-    ],
-    [
-        {
-            id: '5a',
-            headline: 'Ancient Mayan Calendar Predicts Major Solar Event in December 2025',
-            image: 'mayan calendar ancient',
-            postedDate: 'November 23, 2025',
-            isTrue: false,
-            sourceUrl: 'https://example.com/fake-mayan-prediction',
-            sourceName: 'Debunked by Historians',
-            author: 'Historian'
-        },
-        {
-            id: '5b',
-            headline: 'New Malaria Vaccine Shows 95% Effectiveness in Clinical Trials',
-            image: 'medical vaccine research',
-            postedDate: 'November 19, 2025',
-            isTrue: true,
-            sourceUrl: 'https://example.com/malaria-vaccine',
-            sourceName: 'WHO Official Report',
-            author: 'WHO Team'
-        }
-    ]
-];
-
 export default function FigmaGame({ onBack }) {
+    const [gameData, setGameData] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [currentRound, setCurrentRound] = useState(0);
     const [score, setScore] = useState(0);
     const [selectedClaim, setSelectedClaim] = useState(null);
     const [gameFinished, setGameFinished] = useState(false);
 
-    const currentClaims = GAME_DATA[currentRound];
-    const totalRounds = GAME_DATA.length;
+    useEffect(() => {
+        const fetchGameData = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('prepared_game_rounds')
+                    .select('*')
+                    .eq('ready_for_game', true)
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    const formattedData = data.map(round => {
+                        const trueClaim = {
+                            id: `${round.id}_true`,
+                            headline: round.true_fact_headline,
+                            image: round.true_fact_image_url || 'https://placehold.co/400x300?text=True+Fact',
+                            postedDate: round.true_fact_posted_date || new Date().toLocaleDateString(),
+                            isTrue: true,
+                            sourceUrl: round.true_fact_url,
+                            sourceName: round.true_fact_source || 'Verified Source',
+                            author: round.true_fact_author
+                        };
+
+                        const falseClaim = {
+                            id: `${round.id}_false`,
+                            headline: round.false_claim_text,
+                            image: round.false_claim_image_url || 'https://placehold.co/400x300?text=Fake+News',
+                            postedDate: round.false_claim_posted_date || new Date().toLocaleDateString(),
+                            isTrue: false,
+                            sourceUrl: round.false_claim_fact_check_url,
+                            sourceName: 'Fact Check',
+                            author: 'Social Media'
+                        };
+
+                        // Randomize order
+                        return Math.random() > 0.5 ? [trueClaim, falseClaim] : [falseClaim, trueClaim];
+                    });
+                    setGameData(formattedData);
+                }
+            } catch (err) {
+                console.error('Error fetching game data:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGameData();
+    }, []);
+
+    const currentClaims = gameData[currentRound];
+    const totalRounds = gameData.length;
 
     const handleClaimSelect = (claimId) => {
         if (selectedClaim) return;
@@ -152,6 +93,29 @@ export default function FigmaGame({ onBack }) {
         setSelectedClaim(null);
         setGameFinished(false);
     };
+
+    if (loading) {
+        return (
+            <div className="h-[100dvh] w-full bg-gradient-to-b from-purple-600 to-blue-600 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-4 border-white border-t-transparent"></div>
+            </div>
+        );
+    }
+
+    if (!gameData.length) {
+        return (
+            <div className="h-[100dvh] w-full bg-gradient-to-b from-purple-600 to-blue-600 flex flex-col items-center justify-center p-4 text-white text-center">
+                <h2 className="text-2xl font-bold mb-4">No Games Available</h2>
+                <p className="mb-6">Check back later for new fact-checking rounds!</p>
+                <button
+                    onClick={onBack}
+                    className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-xl font-semibold hover:bg-white/30 transition"
+                >
+                    Back to Menu
+                </button>
+            </div>
+        );
+    }
 
     if (gameFinished) {
         return (
