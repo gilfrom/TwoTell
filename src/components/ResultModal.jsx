@@ -1,67 +1,119 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, XCircle, ArrowRight } from 'lucide-react';
+import { CheckCircle2, XCircle, ExternalLink, User } from 'lucide-react';
 
 export function ResultModal({ isCorrect, trueClaim, falseClaim, onNext, isLastRound }) {
     return (
         <AnimatePresence>
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/50 flex items-end p-4 pointer-events-auto z-50"
+                onClick={onNext}
+            >
                 <motion.div
                     initial={{ y: '100%' }}
                     animate={{ y: 0 }}
                     exit={{ y: '100%' }}
-                    className="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl"
+                    className="max-w-md mx-auto w-full bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[85vh] overflow-y-auto"
+                    onClick={(e) => e.stopPropagation()}
                 >
-                    {/* Header */}
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className={`p-3 rounded-full ${isCorrect ? 'bg-green-100' : 'bg-red-100'}`}>
+                    {/* Result Header */}
+                    <div className={`p-6 ${isCorrect
+                            ? 'bg-gradient-to-r from-green-500 to-emerald-500'
+                            : 'bg-gradient-to-r from-red-500 to-rose-500'
+                        }`}>
+                        <div className="flex items-center gap-3">
                             {isCorrect ? (
-                                <CheckCircle2 className="w-8 h-8 text-green-600" />
+                                <CheckCircle2 className="w-8 h-8 text-white" />
                             ) : (
-                                <XCircle className="w-8 h-8 text-red-600" />
+                                <XCircle className="w-8 h-8 text-white" />
                             )}
-                        </div>
-                        <div>
-                            <h2 className="text-2xl font-bold text-gray-900">
-                                {isCorrect ? 'Correct!' : 'Incorrect'}
-                            </h2>
-                            <p className="text-gray-600">
-                                {isCorrect ? 'You spotted the truth!' : 'You fell for the fake news!'}
-                            </p>
+                            <div>
+                                <h3 className="text-white text-xl font-bold">
+                                    {isCorrect ? 'Correct! 🎉' : 'Not quite! 😔'}
+                                </h3>
+                                <p className="text-white/90 text-sm">
+                                    {isCorrect
+                                        ? '+10 points'
+                                        : 'Better luck next time!'}
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Explanation */}
-                    <div className="bg-gray-50 rounded-xl p-4 mb-6">
-                        <h3 className="font-semibold mb-2 text-green-700 flex items-center gap-2">
-                            <CheckCircle2 className="w-4 h-4" />
-                            The Truth
-                        </h3>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                            "{trueClaim.headline}" is the true story, reported by {trueClaim.sourceName}.
-                        </p>
+                    {/* Claims Info */}
+                    <div className="p-6 space-y-4">
+                        {/* True Claim */}
+                        <div className="border-2 border-green-500 rounded-xl p-4 bg-green-50">
+                            <div className="flex items-start gap-2 mb-2">
+                                <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                <div className="flex-1">
+                                    <div className="text-green-800 font-bold mb-1">TRUE</div>
+                                    <p className="text-sm text-gray-700">{trueClaim.headline}</p>
+                                </div>
+                            </div>
 
-                        <div className="my-3 border-t border-gray-200" />
+                            <div className="mt-3 pt-3 border-t border-green-200 space-y-2">
+                                {trueClaim.author && (
+                                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                                        <User className="w-4 h-4" />
+                                        <span>{trueClaim.author}</span>
+                                    </div>
+                                )}
+                                <a
+                                    href={trueClaim.sourceUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-sm text-green-700 hover:text-green-800"
+                                >
+                                    <ExternalLink className="w-4 h-4" />
+                                    <span>{trueClaim.sourceName}</span>
+                                </a>
+                            </div>
+                        </div>
 
-                        <h3 className="font-semibold mb-2 text-red-700 flex items-center gap-2">
-                            <XCircle className="w-4 h-4" />
-                            The Fake
-                        </h3>
-                        <p className="text-gray-700 text-sm leading-relaxed">
-                            "{falseClaim.headline}" is false information that has been debunked.
-                        </p>
+                        {/* False Claim */}
+                        <div className="border-2 border-red-500 rounded-xl p-4 bg-red-50">
+                            <div className="flex items-start gap-2 mb-2">
+                                <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                                <div className="flex-1">
+                                    <div className="text-red-800 font-bold mb-1">FALSE</div>
+                                    <p className="text-sm text-gray-700">{falseClaim.headline}</p>
+                                </div>
+                            </div>
+
+                            <div className="mt-3 pt-3 border-t border-red-200 space-y-2">
+                                {falseClaim.author && (
+                                    <div className="flex items-center gap-2 text-sm text-gray-600">
+                                        <User className="w-4 h-4" />
+                                        <span>{falseClaim.author}</span>
+                                    </div>
+                                )}
+                                <a
+                                    href={falseClaim.sourceUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 text-sm text-red-700 hover:text-red-800"
+                                >
+                                    <ExternalLink className="w-4 h-4" />
+                                    <span>{falseClaim.sourceName}</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Action Button */}
-                    <button
-                        onClick={onNext}
-                        className={`w-full py-4 rounded-xl font-bold text-white flex items-center justify-center gap-2 transition-transform active:scale-95 ${isCorrect ? 'bg-green-600 hover:bg-green-700' : 'bg-blue-600 hover:bg-blue-700'
-                            }`}
-                    >
-                        {isLastRound ? 'Finish Game' : 'Next Round'}
-                        <ArrowRight className="w-5 h-5" />
-                    </button>
+                    {/* Next Button */}
+                    <div className="p-6 pt-0">
+                        <button
+                            onClick={onNext}
+                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2"
+                        >
+                            {isLastRound ? 'View Results →' : 'Next Round →'}
+                        </button>
+                    </div>
                 </motion.div>
-            </div>
+            </motion.div>
         </AnimatePresence>
     );
 }
