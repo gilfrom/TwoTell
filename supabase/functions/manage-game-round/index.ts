@@ -29,19 +29,22 @@ serve(async (req) => {
             const apiKey = Deno.env.get('VALUESERP_API_KEY')
             if (!apiKey) throw new Error('VALUESERP_API_KEY not set')
 
-            // Search for images
+            // Search for images using ValueSERP's correct parameter
             console.log(`Searching for image: ${query}`)
-            const searchUrl = `https://api.valueserp.com/search?api_key=${apiKey}&q=${encodeURIComponent(query)}&tbm=isch&num=20`
+            const searchUrl = `https://api.valueserp.com/search?api_key=${apiKey}&q=${encodeURIComponent(query)}&search_type=images&num=20`
             const resp = await fetch(searchUrl)
             const data = await resp.json()
 
-            if (!data.images_results || data.images_results.length === 0) {
+            console.log('ValueSERP API Response:', JSON.stringify(data, null, 2))
+
+            if (!data.image_results || data.image_results.length === 0) {
+                console.error('No images found. Full response:', JSON.stringify(data))
                 throw new Error('No images found for this query')
             }
 
             // Pick a random image from the results to allow "trying again"
-            const randomIndex = Math.floor(Math.random() * Math.min(data.images_results.length, 20));
-            const imageUrl = data.images_results[randomIndex].original;
+            const randomIndex = Math.floor(Math.random() * Math.min(data.image_results.length, 20));
+            const imageUrl = data.image_results[randomIndex].image;
 
             console.log(`Selected image: ${imageUrl}`)
 

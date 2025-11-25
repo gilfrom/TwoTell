@@ -173,9 +173,16 @@ function App() {
     }
   }
 
+  const handleGuestPlay = () => {
+    setUser({ displayName: 'Guest', email: '', uid: 'guest', isAnonymous: true });
+  }
+
   const handleLogout = async () => {
     try {
-      await logout();
+      if (user && !user.isAnonymous) {
+        await logout();
+      }
+      setUser(null);
       setGameStarted(false); // Reset game on logout
       setView('game');
     } catch (error) {
@@ -213,7 +220,28 @@ function App() {
             <button className="logout-button-intro" onClick={handleLogout}>Logout</button>
           </div>
         ) : (
-          <button className="login-button" onClick={handleLogin}>Login with Google to Play</button>
+          <div className="login-options" style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'center' }}>
+            <button className="login-button" onClick={handleLogin}>Login with Google to Play</button>
+            <button
+              className="guest-button"
+              onClick={handleGuestPlay}
+              style={{
+                backgroundColor: 'transparent',
+                border: '2px solid rgba(255,255,255,0.5)',
+                color: 'white',
+                padding: '0.6em 1.2em',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '1em',
+                fontWeight: '500',
+                transition: 'all 0.25s'
+              }}
+              onMouseOver={(e) => e.target.style.borderColor = 'white'}
+              onMouseOut={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.5)'}
+            >
+              Play as Guest
+            </button>
+          </div>
         )}
       </div>
     )
