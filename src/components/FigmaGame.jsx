@@ -14,12 +14,16 @@ export default function FigmaGame({ onBack }) {
     const [gameFinished, setGameFinished] = useState(false);
 
     useEffect(() => {
-        // Lock body scroll and prevent overscroll
+        // Lock body and html scroll and prevent overscroll
+        document.documentElement.style.overflow = 'hidden';
         document.body.style.overflow = 'hidden';
         document.body.style.overscrollBehavior = 'none';
+        document.body.style.touchAction = 'none';
         return () => {
+            document.documentElement.style.overflow = '';
             document.body.style.overflow = '';
             document.body.style.overscrollBehavior = '';
+            document.body.style.touchAction = '';
         };
     }, []);
 
@@ -137,7 +141,7 @@ export default function FigmaGame({ onBack }) {
     }
 
     return (
-        <div className="h-[100dvh] w-full overflow-hidden bg-gradient-to-b from-purple-600 to-blue-600 flex flex-col">
+        <div className="fixed inset-0 h-[100dvh] w-full overflow-hidden bg-gradient-to-b from-purple-600 to-blue-600 flex flex-col touch-none">
             {/* Header */}
             <div className="flex-none bg-white/10 backdrop-blur-sm border-b border-white/20 z-10 pt-safe">
                 <div className="max-w-md mx-auto px-4 py-4">
