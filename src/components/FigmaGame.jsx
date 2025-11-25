@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ClaimCard } from './ClaimCard';
 import { ScoreBoard } from './ScoreBoard';
 import { ResultModal } from './ResultModal';
-import { Trophy, RotateCcw } from 'lucide-react';
+import { Leaderboard } from './Leaderboard';
 
 const GAME_DATA = [
     [
@@ -155,40 +155,11 @@ export default function FigmaGame({ onBack }) {
 
     if (gameFinished) {
         return (
-            <div className="min-h-screen bg-gradient-to-b from-purple-600 to-blue-600 flex items-center justify-center p-4">
-                <div className="bg-white rounded-3xl p-8 max-w-md w-full text-center shadow-2xl">
-                    <div className="w-20 h-20 bg-yellow-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Trophy className="w-12 h-12 text-white" />
-                    </div>
-                    <h1 className="text-3xl font-bold mb-2 text-gray-900">Game Complete!</h1>
-                    <p className="text-gray-600 mb-6">
-                        You've completed all {totalRounds} rounds
-                    </p>
-                    <div className="bg-gradient-to-r from-purple-100 to-blue-100 rounded-2xl p-6 mb-6">
-                        <div className="text-gray-600 mb-1">Final Score</div>
-                        <div className="text-4xl font-bold text-purple-600">{score} / {totalRounds * 10} points</div>
-                    </div>
-                    <div className="text-gray-600 mb-6">
-                        {score === totalRounds * 10 ? '🎉 Perfect Score! You\'re a fact-checking expert!' :
-                            score >= totalRounds * 7 ? '👏 Great job! You can spot most fake news!' :
-                                score >= totalRounds * 5 ? '👍 Good work! Keep practicing!' :
-                                    '💪 Keep learning to spot misinformation!'}
-                    </div>
-                    <button
-                        onClick={handleRestart}
-                        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-xl font-semibold mb-3 flex items-center justify-center"
-                    >
-                        <RotateCcw className="w-4 h-4 mr-2" />
-                        Play Again
-                    </button>
-                    <button
-                        onClick={onBack}
-                        className="w-full bg-gray-200 text-gray-700 py-3 px-6 rounded-xl font-semibold"
-                    >
-                        Back to Main Menu
-                    </button>
-                </div>
-            </div>
+            <Leaderboard
+                userScore={score}
+                maxScore={totalRounds * 10}
+                onPlayAgain={handleRestart}
+            />
         );
     }
 
