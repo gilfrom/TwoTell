@@ -1,6 +1,7 @@
 import { Trophy, Medal, Share2, Bell } from 'lucide-react';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { Button } from './ui/button';
 
 // Mock leaderboard data for today
 const generateLeaderboard = (userScore) => {
@@ -116,8 +117,8 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
                                     animate={{ x: 0, opacity: 1 }}
                                     transition={{ delay: index * 0.05 }}
                                     className={`flex items-center justify-between p-3 rounded-xl transition-all ${entry.isCurrentUser
-                                            ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg scale-105'
-                                            : 'bg-gray-50 hover:bg-gray-100'
+                                        ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg scale-105'
+                                        : 'bg-gray-50 hover:bg-gray-100'
                                         }`}
                                 >
                                     <div className="flex items-center gap-3">
@@ -143,32 +144,35 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
 
                     {/* Action Buttons */}
                     <div className="space-y-3">
-                        <button
+                        <Button
                             onClick={handleShare}
-                            className="w-full border-2 border-purple-600 text-purple-600 hover:bg-purple-50 py-3 rounded-xl font-semibold flex items-center justify-center transition-colors"
+                            variant="outline"
+                            className="w-full border-2 border-purple-600 text-purple-600 hover:bg-purple-50"
                         >
                             <Share2 className="w-4 h-4 mr-2" />
                             Share Your Score
-                        </button>
+                        </Button>
 
-                        <button
+                        <Button
                             onClick={handleNotifications}
-                            disabled={notificationsEnabled}
-                            className={`w-full border-2 py-3 rounded-xl font-semibold flex items-center justify-center transition-all ${notificationsEnabled
+                            variant="outline"
+                            className={`w-full border-2 transition-all ${notificationsEnabled
                                     ? 'border-green-600 text-green-600 bg-green-50'
                                     : 'border-blue-600 text-blue-600 hover:bg-blue-50'
                                 }`}
+                            disabled={notificationsEnabled}
                         >
                             <Bell className="w-4 h-4 mr-2" />
                             {notificationsEnabled ? 'Notifications Enabled ✓' : 'Notify Me of New Content'}
-                        </button>
+                        </Button>
 
-                        <button
+                        <Button
                             onClick={onPlayAgain}
-                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all active:scale-95"
+                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white"
+                            size="lg"
                         >
                             Play Again
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

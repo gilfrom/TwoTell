@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, XCircle, ExternalLink, User } from 'lucide-react';
+import { CheckCircle2, XCircle, ExternalLink, User, ArrowRight } from 'lucide-react';
+import { Button } from './ui/button';
 
 export function ResultModal({ isCorrect, trueClaim, falseClaim, onNext, isLastRound }) {
     return (
@@ -20,8 +21,8 @@ export function ResultModal({ isCorrect, trueClaim, falseClaim, onNext, isLastRo
                 >
                     {/* Result Header */}
                     <div className={`p-6 ${isCorrect
-                            ? 'bg-gradient-to-r from-green-500 to-emerald-500'
-                            : 'bg-gradient-to-r from-red-500 to-rose-500'
+                        ? 'bg-gradient-to-r from-green-500 to-emerald-500'
+                        : 'bg-gradient-to-r from-red-500 to-rose-500'
                         }`}>
                         <div className="flex items-center gap-3">
                             {isCorrect ? (
@@ -103,14 +104,16 @@ export function ResultModal({ isCorrect, trueClaim, falseClaim, onNext, isLastRo
                         </div>
                     </div>
 
-                    {/* Next Button */}
+                    {/* Action Button */}
                     <div className="p-6 pt-0">
-                        <button
+                        <Button
                             onClick={onNext}
-                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all active:scale-95 flex items-center justify-center gap-2"
+                            className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg hover:shadow-xl active:scale-95 rounded-xl"
+                            size="lg"
                         >
-                            {isLastRound ? 'View Results →' : 'Next Round →'}
-                        </button>
+                            <span className="mr-2">{isLastRound ? 'View Results' : 'Next Round'}</span>
+                            <ArrowRight className="w-5 h-5" />
+                        </Button>
                     </div>
                 </motion.div>
             </motion.div>
