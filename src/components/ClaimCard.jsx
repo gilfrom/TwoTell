@@ -10,10 +10,11 @@ export function ClaimCard({ claim, isSelected, isRevealed, onSelect }) {
         if (claim.image.startsWith('http')) {
             setImageUrl(claim.image);
         } else {
-            // Otherwise use as-is (placeholder)
-            setImageUrl(claim.image);
+            // Otherwise use loremflickr with keywords
+            const keywords = claim.image.replace(/ /g, ',');
+            setImageUrl(`https://loremflickr.com/400/300/${keywords}?lock=${claim.id}`);
         }
-    }, [claim.image]);
+    }, [claim.image, claim.id]);
 
     const getBorderColor = () => {
         if (!isRevealed) return 'border-white/20';

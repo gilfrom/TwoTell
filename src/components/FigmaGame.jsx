@@ -9,40 +9,110 @@ const GAME_DATA = [
         {
             id: '1a',
             headline: 'Scientists Discover New Species of Bioluminescent Jellyfish in Mariana Trench',
-            image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=400',
+            image: 'ocean jellyfish bioluminescent',
             postedDate: 'November 22, 2025',
             isTrue: true,
             sourceUrl: 'https://example.com/jellyfish-discovery',
-            sourceName: 'Nature Magazine'
+            sourceName: 'Nature Magazine',
+            author: 'Dr. Jane Smith'
         },
         {
             id: '1b',
             headline: 'Elon Musk Announces Plans to Build Underground City on Mars by 2026',
-            image: 'https://images.unsplash.com/photo-1614728894747-a83421e2b9c9?w=400',
+            image: 'mars colony futuristic',
             postedDate: 'November 23, 2025',
             isTrue: false,
             sourceUrl: 'https://example.com/fake-mars-city',
-            sourceName: 'Debunked by Fact Checkers'
+            sourceName: 'Debunked by Fact Checkers',
+            author: 'John Doe'
         }
     ],
     [
         {
             id: '2a',
             headline: 'New Study Shows Drinking Coffee Can Extend Lifespan by 20 Years',
-            image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400',
+            image: 'coffee cup morning',
             postedDate: 'November 24, 2025',
             isTrue: false,
             sourceUrl: 'https://example.com/fake-coffee-study',
-            sourceName: 'Debunked by Medical Experts'
+            sourceName: 'Debunked by Medical Experts',
+            author: 'Dr. Emily Johnson'
         },
         {
             id: '2b',
             headline: 'NASA Successfully Tests New Ion Propulsion System for Deep Space Missions',
-            image: 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400',
+            image: 'space rocket engine',
             postedDate: 'November 17, 2025',
             isTrue: true,
             sourceUrl: 'https://example.com/nasa-ion-propulsion',
-            sourceName: 'NASA Official'
+            sourceName: 'NASA Official',
+            author: 'NASA Team'
+        }
+    ],
+    [
+        {
+            id: '3a',
+            headline: 'Tokyo 2025 Olympics to Feature Competitive Video Gaming as Official Sport',
+            image: 'esports gaming tournament',
+            postedDate: 'November 21, 2025',
+            isTrue: false,
+            sourceUrl: 'https://example.com/fake-olympics',
+            sourceName: 'Debunked by IOC',
+            author: 'IOC Staff'
+        },
+        {
+            id: '3b',
+            headline: 'Archaeologists Uncover 3,000-Year-Old Bronze Age Settlement in Scotland',
+            image: 'archaeology excavation ancient',
+            postedDate: 'November 20, 2025',
+            isTrue: true,
+            sourceUrl: 'https://example.com/scotland-settlement',
+            sourceName: 'BBC News',
+            author: 'BBC Reporter'
+        }
+    ],
+    [
+        {
+            id: '4a',
+            headline: 'Researchers Develop AI That Can Predict Earthquakes 48 Hours in Advance',
+            image: 'artificial intelligence technology',
+            postedDate: 'November 10, 2025',
+            isTrue: true,
+            sourceUrl: 'https://example.com/earthquake-ai',
+            sourceName: 'Science Daily',
+            author: 'Dr. Alex Brown'
+        },
+        {
+            id: '4b',
+            headline: 'Bill Gates Secretly Bought All Farmland in Iowa to Control Food Supply',
+            image: 'farm field agriculture',
+            postedDate: 'November 24, 2025',
+            isTrue: false,
+            sourceUrl: 'https://example.com/fake-gates-farmland',
+            sourceName: 'Debunked by Snopes',
+            author: 'Snopes Team'
+        }
+    ],
+    [
+        {
+            id: '5a',
+            headline: 'Ancient Mayan Calendar Predicts Major Solar Event in December 2025',
+            image: 'mayan calendar ancient',
+            postedDate: 'November 23, 2025',
+            isTrue: false,
+            sourceUrl: 'https://example.com/fake-mayan-prediction',
+            sourceName: 'Debunked by Historians',
+            author: 'Historian'
+        },
+        {
+            id: '5b',
+            headline: 'New Malaria Vaccine Shows 95% Effectiveness in Clinical Trials',
+            image: 'medical vaccine research',
+            postedDate: 'November 19, 2025',
+            isTrue: true,
+            sourceUrl: 'https://example.com/malaria-vaccine',
+            sourceName: 'WHO Official Report',
+            author: 'WHO Team'
         }
     ]
 ];
