@@ -125,7 +125,7 @@ export default function FigmaGame({ onBack }) {
     return (
         <div className="h-[100dvh] w-full overflow-hidden bg-gradient-to-b from-purple-600 to-blue-600 flex flex-col">
             {/* Header */}
-            <div className="flex-none bg-white/10 backdrop-blur-sm border-b border-white/20 z-10">
+            <div className="flex-none bg-white/10 backdrop-blur-sm border-b border-white/20 z-10 pt-safe">
                 <div className="max-w-md mx-auto px-4 py-4">
                     <div className="flex items-center justify-between mb-2">
                         <h1 className="text-2xl font-bold text-white">TwoTell</h1>
