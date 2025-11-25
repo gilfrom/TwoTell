@@ -36,7 +36,7 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
         const shareData = {
             title: 'TwoTell - Fact Checking Game',
             text: `I scored ${userScore}/${maxScore} points on TwoTell! Can you spot fake news better than me? 🎯`,
-            url: window.location.href
+            url: 'https://twotell.ca'
         };
 
         try {
