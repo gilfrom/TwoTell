@@ -14,14 +14,23 @@ export default function FigmaGame({ onBack }) {
     const [gameFinished, setGameFinished] = useState(false);
 
     useEffect(() => {
+        // Lock body scroll and prevent overscroll
+        document.body.style.overflow = 'hidden';
+        document.body.style.overscrollBehavior = 'none';
+        return () => {
+            document.body.style.overflow = '';
+            document.body.style.overscrollBehavior = '';
+        };
+    }, []);
+
+    useEffect(() => {
         const fetchGameData = async () => {
             try {
                 const { data, error } = await supabase
                     .from('prepared_game_rounds')
                     .select('*')
                     .eq('ready_for_game', true)
-                    .order('created_at', { ascending: false })
-                    .limit(5);
+                    .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
