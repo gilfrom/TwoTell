@@ -19,7 +19,8 @@ export default function FigmaGame({ onBack, user }) {
     const [gameFinished, setGameFinished] = useState(false);
     const [maxTime, setMaxTime] = useState(10); // Default 10s, can be fetched from settings
     const [timeLeft, setTimeLeft] = useState(10);
-    const [showToast, setShowToast] = useState(false);
+    const [streak, setStreak] = useState(0);
+    const [toastConfig, setToastConfig] = useState({ show: false, message: '', type: 'speed' });
     const [hasShownSpeedToast, setHasShownSpeedToast] = useState(false);
     const [roundScores, setRoundScores] = useState({}); // Track points per round
 
@@ -108,6 +109,11 @@ export default function FigmaGame({ onBack, user }) {
     const currentClaims = gameData[currentRound];
     const totalRounds = gameData.length;
 
+    const showToastMessage = (message, type = 'speed') => {
+        setToastConfig({ show: true, message, type });
+        setTimeout(() => setToastConfig(prev => ({ ...prev, show: false })), 3000);
+    };
+
     const handleClaimSelect = (claimId) => {
         if (selectedClaim) return;
 
@@ -118,16 +124,24 @@ export default function FigmaGame({ onBack, user }) {
 
         // Calculate score
         let points = 0;
+        let newStreak = isCorrect ? streak + 1 : 0;
+
         if (isCorrect) {
             points = 10; // Base points
-            if (timeLeft > 0) {
+
+            // Streak Bonus (5 in a row)
+            if (newStreak === 5) {
+                points += 20;
+                showToastMessage("🔥 5 Streak! +20 pts", 'streak');
+            }
+            // Speed Bonus (only if not streak bonus to avoid overlap, or prioritize streak)
+            else if (timeLeft > 0) {
                 points += 5; // Bonus for speed
 
                 // Show toast only if it hasn't been shown before
                 if (!hasShownSpeedToast) {
-                    setShowToast(true);
+                    showToastMessage("⚡ Speed Bonus! +5 pts", 'speed');
                     setHasShownSpeedToast(true);
-                    setTimeout(() => setShowToast(false), 3000);
                 }
             }
         }
@@ -136,14 +150,18 @@ export default function FigmaGame({ onBack, user }) {
 
         if (isCorrect) {
             setScore(newScore);
+            setStreak(newStreak);
             setRoundScores(prev => ({ ...prev, [currentRound]: points }));
+        } else {
+            setStreak(0);
         }
 
         trackEvent('round_answered', {
             round: currentRound + 1,
             is_correct: isCorrect,
             score_so_far: newScore,
-            time_left: timeLeft
+            time_left: timeLeft,
+            streak: newStreak
         });
     };
 
@@ -164,6 +182,7 @@ export default function FigmaGame({ onBack, user }) {
     const handleRestart = () => {
         setCurrentRound(0);
         setScore(0);
+        setStreak(0);
         setSelectedClaim(null);
         setGameFinished(false);
         setTimeLeft(maxTime);
@@ -180,6 +199,7 @@ export default function FigmaGame({ onBack, user }) {
             const prevRoundPoints = roundScores[prevRound] || 0;
 
             setScore(prev => Math.max(0, prev - currentRoundPoints - prevRoundPoints));
+            setStreak(0); // Reset streak on back navigation to prevent exploits
 
             setRoundScores(prev => {
                 const newScores = { ...prev };
@@ -315,9 +335,10 @@ export default function FigmaGame({ onBack, user }) {
             )}
             {/* Toast Notification */}
             <Toast
-                message="⚡ Speed Bonus! +5 Points"
-                isVisible={showToast}
-                onClose={() => setShowToast(false)}
+                message={toastConfig.message}
+                isVisible={toastConfig.show}
+                type={toastConfig.type}
+                onClose={() => setToastConfig(prev => ({ ...prev, show: false }))}
             />
         </div>
     );

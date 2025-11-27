@@ -159,101 +159,106 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
                         <p className="text-white/70 text-sm">{today}</p>
                     </div>
 
-                    {/* User Score Highlight */}
+                    {/* Leaderboard Table */}
                     <div className="p-6 pb-4">
-                        <motion.div
-                            initial={{ scale: 0.9, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            className="bg-gradient-to-r from-purple-100 to-blue-100 rounded-2xl p-4 mb-6"
-                        >
-                            <div className="text-center">
-                                <div className="text-gray-600 text-sm mb-1">Your Score</div>
-                                <div className="text-purple-600 mb-2 font-bold text-xl">{userScore} / {maxScore} points</div>
-                                <div className="text-gray-600 text-sm font-medium">
-                                    {userRank ? `You are ranked #${userRank}!` : 'Calculating rank...'}
-                                </div>
-                            </div>
-                        </motion.div>
-
-                        {/* Name Submission Form */}
-                        {!hasSubmitted ? (
-                            <motion.form
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                onSubmit={handleSubmitScore}
-                                className="mb-6"
-                            >
-                                <label className="block text-sm font-medium text-gray-700 mb-2 text-center">
-                                    Enter your name to join the leaderboard
-                                </label>
-                                <div className="flex gap-2">
-                                    <input
-                                        type="text"
-                                        value={playerName}
-                                        onChange={(e) => setPlayerName(e.target.value)}
-                                        placeholder="Your Name"
-                                        className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none text-gray-900 bg-white"
-                                        maxLength={15}
-                                        required
-                                    />
-                                    <Button
-                                        type="submit"
-                                        disabled={isSubmitting || !playerName.trim()}
-                                        className="bg-purple-600 text-white hover:bg-purple-700 rounded-xl"
-                                    >
-                                        {isSubmitting ? 'Saving...' : 'Save'}
-                                    </Button>
-                                </div>
-                            </motion.form>
-                        ) : (
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="mb-6 text-center text-green-600 font-medium bg-green-50 p-3 rounded-xl border border-green-100"
-                            >
-                                Score submitted! You are on the board.
-                            </motion.div>
-                        )}
-
-                        {/* Leaderboard Table */}
                         <div className="mb-6">
-                            <h3 className="text-gray-600 mb-3 text-center font-semibold">Top 5 Players</h3>
+                            <h3 className="text-gray-600 mb-3 text-center font-semibold">Top Players</h3>
                             {loading ? (
                                 <div className="text-center text-gray-400 py-4">Loading scores...</div>
-                            ) : leaderboard.length > 0 ? (
-                                <div className="space-y-2">
-                                    {leaderboard.map((entry, index) => (
-                                        <motion.div
-                                            key={entry.id}
-                                            initial={{ x: -20, opacity: 0 }}
-                                            animate={{ x: 0, opacity: 1 }}
-                                            transition={{ delay: index * 0.05 }}
-                                            className={`flex items-center justify-between p-3 rounded-xl transition-all ${entry.player_name === playerName && hasSubmitted
-                                                ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg scale-105'
-                                                : 'bg-gray-50'
-                                                }`}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${entry.player_name === playerName && hasSubmitted ? 'bg-white/20' : 'bg-gray-200'
-                                                    }`}>
-                                                    {getRankIcon(index + 1) || (
-                                                        <span className={`font-bold ${entry.player_name === playerName && hasSubmitted ? 'text-white' : 'text-gray-600'}`}>
-                                                            {index + 1}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                                <span className={`font-medium ${entry.player_name === playerName && hasSubmitted ? 'text-white' : 'text-gray-900'}`}>
-                                                    {formatName(entry.player_name)}
-                                                </span>
-                                            </div>
-                                            <span className={`font-bold ${entry.player_name === playerName && hasSubmitted ? 'text-white' : 'text-gray-600'}`}>
-                                                {entry.score} pts
-                                            </span>
-                                        </motion.div>
-                                    ))}
-                                </div>
                             ) : (
-                                <div className="text-center text-gray-400 py-4">No scores yet. Be the first!</div>
+                                <div className="space-y-2">
+                                    {/* Render merged list of top players + current user */}
+                                    {(() => {
+                                        // Create a display list
+                                        let displayList = [...leaderboard];
+
+                                        // If user hasn't submitted, insert them locally for display
+                                        if (!hasSubmitted) {
+                                            const currentUserEntry = {
+                                                id: 'current-user',
+                                                player_name: playerName, // Will be empty initially
+                                                score: userScore,
+                                                isCurrentUser: true,
+                                                rank: userRank || '?'
+                                            };
+
+                                            // If user is in top 5 (based on score), insert and slice
+                                            // Otherwise append
+                                            const isInTop = displayList.some(p => userScore >= p.score);
+
+                                            if (isInTop || displayList.length < 5) {
+                                                displayList.push(currentUserEntry);
+                                                displayList.sort((a, b) => b.score - a.score);
+                                                displayList = displayList.slice(0, 5);
+                                            } else {
+                                                // If not in top 5, show top 5 then user
+                                                displayList = displayList.slice(0, 5);
+                                                displayList.push(currentUserEntry);
+                                            }
+                                        }
+
+                                        return displayList.map((entry, index) => {
+                                            const isCurrentUser = entry.isCurrentUser || (hasSubmitted && entry.player_name === playerName && entry.score === userScore);
+                                            const rank = entry.rank || index + 1;
+
+                                            return (
+                                                <motion.div
+                                                    key={entry.id || index}
+                                                    initial={{ x: -20, opacity: 0 }}
+                                                    animate={{ x: 0, opacity: 1 }}
+                                                    transition={{ delay: index * 0.05 }}
+                                                    className={`flex items-center justify-between p-3 rounded-xl transition-all ${isCurrentUser
+                                                        ? 'bg-gradient-to-r from-purple-500 to-blue-500 text-white shadow-lg scale-105'
+                                                        : 'bg-gray-50'
+                                                        }`}
+                                                >
+                                                    <div className="flex items-center gap-3 flex-1">
+                                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isCurrentUser ? 'bg-white/20' : 'bg-gray-200'
+                                                            }`}>
+                                                            {getRankIcon(rank) || (
+                                                                <span className={`font-bold ${isCurrentUser ? 'text-white' : 'text-gray-600'}`}>
+                                                                    {rank}
+                                                                </span>
+                                                            )}
+                                                        </div>
+
+                                                        {isCurrentUser && !hasSubmitted ? (
+                                                            <form
+                                                                onSubmit={handleSubmitScore}
+                                                                className="flex-1 flex gap-2 min-w-0"
+                                                                onClick={(e) => e.stopPropagation()}
+                                                            >
+                                                                <input
+                                                                    type="text"
+                                                                    value={playerName}
+                                                                    onChange={(e) => setPlayerName(e.target.value)}
+                                                                    placeholder="Enter Name"
+                                                                    className="w-full px-3 py-1 text-sm text-gray-900 bg-white rounded-lg border-0 focus:ring-2 focus:ring-purple-300 outline-none"
+                                                                    maxLength={15}
+                                                                    autoFocus
+                                                                />
+                                                                <button
+                                                                    type="submit"
+                                                                    disabled={isSubmitting || !playerName.trim()}
+                                                                    className="px-3 py-1 text-xs font-bold bg-white/20 hover:bg-white/30 text-white rounded-lg transition disabled:opacity-50"
+                                                                >
+                                                                    SAVE
+                                                                </button>
+                                                            </form>
+                                                        ) : (
+                                                            <span className={`font-medium truncate ${isCurrentUser ? 'text-white' : 'text-gray-900'}`}>
+                                                                {formatName(entry.player_name || 'You')}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                    <span className={`font-bold ml-3 ${isCurrentUser ? 'text-white' : 'text-gray-600'}`}>
+                                                        {entry.score}
+                                                    </span>
+                                                </motion.div>
+                                            );
+                                        });
+                                    })()}
+                                </div>
                             )}
                         </div>
 
@@ -266,19 +271,6 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
                             >
                                 <Share2 className="w-4 h-4 mr-2" />
                                 Share Your Score
-                            </Button>
-
-                            <Button
-                                onClick={handleNotifications}
-                                variant="outline"
-                                className={`w-full border-2 transition-all ${notificationsEnabled
-                                    ? 'border-green-600 text-green-600 bg-green-50'
-                                    : 'border-blue-600 text-blue-600 hover:bg-blue-50'
-                                    }`}
-                                disabled={notificationsEnabled}
-                            >
-                                <Bell className="w-4 h-4 mr-2" />
-                                {notificationsEnabled ? 'Notifications Enabled ✓' : 'Notify Me of New Content'}
                             </Button>
 
                             <Button
