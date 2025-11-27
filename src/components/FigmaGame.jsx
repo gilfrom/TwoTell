@@ -75,7 +75,8 @@ export default function FigmaGame({ onBack, user }) {
                             isTrue: true,
                             sourceUrl: round.true_fact_url,
                             sourceName: round.true_fact_source || 'Verified Source',
-                            author: round.true_fact_author
+                            author: round.true_fact_author,
+                            affiliateLink: round.true_fact_affiliate_link
                         };
 
                         const falseClaim = {

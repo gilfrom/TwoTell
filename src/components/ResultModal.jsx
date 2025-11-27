@@ -63,6 +63,23 @@ export function ResultModal({ isCorrect, claims, onNext, isLastRound }) {
 
                                 <div className={`mt-3 pt-3 border-t space-y-2 ${claim.isTrue ? 'border-green-200' : 'border-red-200'
                                     }`}>
+                                    {claim.affiliateLink && (
+                                        <div className="mb-3">
+                                            <a
+                                                href={claim.affiliateLink}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="block w-full bg-[#FF9900] hover:bg-[#FF9900]/90 text-white text-center font-bold py-2 px-4 rounded-lg shadow-md transition-transform active:scale-95 flex items-center justify-center gap-2"
+                                            >
+                                                <span>Buy Now on Amazon</span>
+                                                <ExternalLink className="w-4 h-4" />
+                                            </a>
+                                            <p className="text-[10px] text-gray-500 mt-1 text-center leading-tight">
+                                                As an Amazon Associate we earn from qualifying purchases. Prices and availability may change.
+                                            </p>
+                                        </div>
+                                    )}
+
                                     {claim.author && (
                                         <div className="flex items-center gap-2 text-sm text-gray-600">
                                             <User className="w-4 h-4" />
