@@ -24,22 +24,15 @@ export function ResultModal({ isCorrect, claims, onNext, isLastRound }) {
                         ? 'bg-gradient-to-r from-green-500 to-emerald-500'
                         : 'bg-gradient-to-r from-red-500 to-rose-500'
                         }`}>
-                        <div className="flex items-center gap-3">
-                            {isCorrect ? (
-                                <CheckCircle2 className="w-8 h-8 text-white" />
-                            ) : (
-                                <XCircle className="w-8 h-8 text-white" />
-                            )}
-                            <div>
-                                <h3 className="text-white text-xl font-bold">
-                                    {isCorrect ? 'Correct! 🎉' : 'Not quite! 😔'}
-                                </h3>
-                                <p className="text-white/90 text-sm">
-                                    {isCorrect
-                                        ? '+10 points'
-                                        : 'Better luck next time!'}
-                                </p>
-                            </div>
+                        <div className="text-center">
+                            <h3 className="text-white text-3xl font-bold mb-1">
+                                {isCorrect ? 'Correct! 🎉' : 'Not quite! 😔'}
+                            </h3>
+                            <p className="text-white/90 text-lg font-medium">
+                                {isCorrect
+                                    ? '+10 points'
+                                    : 'Better luck next time!'}
+                            </p>
                         </div>
                     </div>
 
@@ -49,8 +42,8 @@ export function ResultModal({ isCorrect, claims, onNext, isLastRound }) {
                             <div
                                 key={claim.id}
                                 className={`border-2 rounded-xl p-4 ${claim.isTrue
-                                        ? 'border-green-500 bg-green-50'
-                                        : 'border-red-500 bg-red-50'
+                                    ? 'border-green-500 bg-green-50'
+                                    : 'border-red-500 bg-red-50'
                                     }`}
                             >
                                 <div className="flex items-start gap-2 mb-2">

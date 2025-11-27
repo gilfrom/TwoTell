@@ -5,6 +5,7 @@ import { ClaimCard } from './ClaimCard';
 import { ScoreBoard } from './ScoreBoard';
 import { ResultModal } from './ResultModal';
 import { Leaderboard } from './Leaderboard';
+import { Toast } from './Toast';
 
 import { ArrowLeft, LogOut } from 'lucide-react';
 import logo from '../assets/logo.png';
@@ -18,6 +19,9 @@ export default function FigmaGame({ onBack, user }) {
     const [gameFinished, setGameFinished] = useState(false);
     const [maxTime, setMaxTime] = useState(10); // Default 10s, can be fetched from settings
     const [timeLeft, setTimeLeft] = useState(10);
+    const [showToast, setShowToast] = useState(false);
+    const [hasShownSpeedToast, setHasShownSpeedToast] = useState(false);
+    const [roundScores, setRoundScores] = useState({}); // Track points per round
 
     useEffect(() => {
         // Lock body and html scroll and prevent overscroll
@@ -117,6 +121,13 @@ export default function FigmaGame({ onBack, user }) {
             points = 10; // Base points
             if (timeLeft > 0) {
                 points += 5; // Bonus for speed
+
+                // Show toast only if it hasn't been shown before
+                if (!hasShownSpeedToast) {
+                    setShowToast(true);
+                    setHasShownSpeedToast(true);
+                    setTimeout(() => setShowToast(false), 3000);
+                }
             }
         }
 
@@ -124,6 +135,7 @@ export default function FigmaGame({ onBack, user }) {
 
         if (isCorrect) {
             setScore(newScore);
+            setRoundScores(prev => ({ ...prev, [currentRound]: points }));
         }
 
         trackEvent('round_answered', {
@@ -154,12 +166,30 @@ export default function FigmaGame({ onBack, user }) {
         setSelectedClaim(null);
         setGameFinished(false);
         setTimeLeft(maxTime);
+        setHasShownSpeedToast(false);
+        setRoundScores({});
     };
 
     const handleBack = () => {
         if (currentRound > 0) {
-            setCurrentRound(currentRound - 1);
+            const prevRound = currentRound - 1;
+
+            // Deduct points from current round (if answered) and previous round (since we are resetting it)
+            const currentRoundPoints = roundScores[currentRound] || 0;
+            const prevRoundPoints = roundScores[prevRound] || 0;
+
+            setScore(prev => Math.max(0, prev - currentRoundPoints - prevRoundPoints));
+
+            setRoundScores(prev => {
+                const newScores = { ...prev };
+                delete newScores[currentRound];
+                delete newScores[prevRound];
+                return newScores;
+            });
+
+            setCurrentRound(prevRound);
             setSelectedClaim(null);
+            setTimeLeft(maxTime);
         } else {
             onBack();
         }
@@ -196,6 +226,11 @@ export default function FigmaGame({ onBack, user }) {
                 onPlayAgain={handleRestart}
             />
         );
+    }
+
+    // Safety check to prevent crash if data is inconsistent
+    if (!currentClaims) {
+        return null;
     }
 
     return (
@@ -277,6 +312,12 @@ export default function FigmaGame({ onBack, user }) {
                     isLastRound={currentRound >= totalRounds - 1}
                 />
             )}
+            {/* Toast Notification */}
+            <Toast
+                message="⚡ Speed Bonus! +5 Points"
+                isVisible={showToast}
+                onClose={() => setShowToast(false)}
+            />
         </div>
     );
 }

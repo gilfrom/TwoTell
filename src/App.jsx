@@ -76,7 +76,6 @@ function App() {
         user ? <Navigate to="/game" replace /> :
           <LandingPage
             onPlayAsGuest={handleGuestPlay}
-            onLoginWithGoogle={handleLogin}
           />
       } />
 
@@ -85,9 +84,20 @@ function App() {
       } />
 
       <Route path="/admin" element={
-        user?.email === 'gil.from@gmail.com' ?
-          <AdminDashboard onBack={() => navigate('/game')} /> :
+        !user ? (
+          <div className="h-screen flex items-center justify-center bg-gray-900">
+            <button
+              onClick={handleLogin}
+              className="bg-white text-gray-900 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition"
+            >
+              Admin Login with Google
+            </button>
+          </div>
+        ) : user.email === 'gil.from@gmail.com' ? (
+          <AdminDashboard onBack={() => navigate('/game')} />
+        ) : (
           <Navigate to="/" replace />
+        )
       } />
 
       {/* Catch all redirect */}

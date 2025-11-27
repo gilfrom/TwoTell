@@ -9,8 +9,9 @@ export const initAnalytics = () => {
     if (apiKey) {
         posthog.init(apiKey, {
             api_host: apiHost,
-            person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
-            capture_pageview: false // We'll handle this manually or let the router handle it if needed
+            person_profiles: 'identified_only',
+            capture_pageview: false,
+            debug: true // Enable debug mode to see events in console
         });
     } else {
         console.warn('PostHog API Key not found. Analytics will not be tracked.');
@@ -20,6 +21,7 @@ export const initAnalytics = () => {
 // Track specific events
 export const trackEvent = (eventName, properties = {}) => {
     if (import.meta.env.VITE_POSTHOG_KEY) {
+        console.log(`[Analytics] Capturing: ${eventName}`, properties);
         posthog.capture(eventName, properties);
     } else {
         console.log(`[Analytics Dev] ${eventName}`, properties);
