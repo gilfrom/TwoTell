@@ -16,6 +16,8 @@ export default function FigmaGame({ onBack, user }) {
     const [score, setScore] = useState(0);
     const [selectedClaim, setSelectedClaim] = useState(null);
     const [gameFinished, setGameFinished] = useState(false);
+    const [maxTime, setMaxTime] = useState(10); // Default 10s, can be fetched from settings
+    const [timeLeft, setTimeLeft] = useState(10);
 
     useEffect(() => {
         // Lock body and html scroll and prevent overscroll
@@ -30,6 +32,23 @@ export default function FigmaGame({ onBack, user }) {
             document.body.style.touchAction = '';
         };
     }, []);
+
+    // Timer Effect
+    useEffect(() => {
+        if (selectedClaim || gameFinished || loading) return;
+
+        const timer = setInterval(() => {
+            setTimeLeft((prev) => {
+                if (prev <= 0) {
+                    clearInterval(timer);
+                    return 0;
+                }
+                return prev - 0.1;
+            });
+        }, 100);
+
+        return () => clearInterval(timer);
+    }, [selectedClaim, gameFinished, loading, currentRound]);
 
     useEffect(() => {
         const fetchGameData = async () => {
@@ -91,7 +110,17 @@ export default function FigmaGame({ onBack, user }) {
 
         const claim = currentClaims.find(c => c.id === claimId);
         const isCorrect = !claim?.isTrue;
-        const newScore = isCorrect ? score + 10 : score;
+
+        // Calculate score
+        let points = 0;
+        if (isCorrect) {
+            points = 10; // Base points
+            if (timeLeft > 0) {
+                points += 5; // Bonus for speed
+            }
+        }
+
+        const newScore = score + points;
 
         if (isCorrect) {
             setScore(newScore);
@@ -100,7 +129,8 @@ export default function FigmaGame({ onBack, user }) {
         trackEvent('round_answered', {
             round: currentRound + 1,
             is_correct: isCorrect,
-            score_so_far: newScore
+            score_so_far: newScore,
+            time_left: timeLeft
         });
     };
 
@@ -108,6 +138,7 @@ export default function FigmaGame({ onBack, user }) {
         if (currentRound < totalRounds - 1) {
             setCurrentRound(currentRound + 1);
             setSelectedClaim(null);
+            setTimeLeft(maxTime);
         } else {
             trackEvent('game_completed', {
                 final_score: score,
@@ -122,6 +153,7 @@ export default function FigmaGame({ onBack, user }) {
         setScore(0);
         setSelectedClaim(null);
         setGameFinished(false);
+        setTimeLeft(maxTime);
     };
 
     const handleBack = () => {
@@ -169,7 +201,7 @@ export default function FigmaGame({ onBack, user }) {
     return (
         <div className="fixed inset-0 w-full overflow-hidden bg-gradient-to-b from-purple-600 to-blue-600 flex flex-col touch-none">
             {/* Header */}
-            <div className="flex-none bg-white/10 backdrop-blur-sm border-b border-white/20 z-10 pt-safe">
+            <div className="flex-none bg-white/10 backdrop-blur-sm border-b border-white/20 z-10 pt-safe relative">
                 <div className="max-w-md mx-auto px-4 py-2 flex flex-col gap-2">
                     {/* Top Row: Back - Logo - Logout */}
                     <div className="flex items-center justify-between relative h-10">
@@ -203,19 +235,27 @@ export default function FigmaGame({ onBack, user }) {
                             <span className="font-bold">{currentRound + 1}/{totalRounds}</span>
                         </div>
 
-                        {/* Center: Question */}
-                        <p className="text-white/90 font-medium text-sm absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
-                            Which claim is FALSE?
-                        </p>
-
                         {/* Right: Score */}
                         <ScoreBoard score={score} className="w-24 justify-center" />
                     </div>
                 </div>
+
+                {/* Time Progress Bar */}
+                {!selectedClaim && !gameFinished && (
+                    <div className="absolute bottom-0 left-0 w-full h-1 bg-white/20">
+                        <div
+                            className="h-full bg-yellow-400 transition-all duration-100 ease-linear"
+                            style={{ width: `${(timeLeft / maxTime) * 100}%` }}
+                        />
+                    </div>
+                )}
             </div>
 
             {/* Game Area */}
             <div className="flex-1 overflow-hidden flex flex-col justify-center px-4 py-2 gap-4 pb-safe">
+                <p className="text-white/90 font-medium text-lg text-center drop-shadow-md">
+                    Which claim is FALSE?
+                </p>
                 {currentClaims.map((claim) => (
                     <div key={claim.id} className="w-full max-w-md mx-auto">
                         <ClaimCard
