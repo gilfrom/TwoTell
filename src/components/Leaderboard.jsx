@@ -1,4 +1,5 @@
 import { Trophy, Medal, Share2, Bell } from 'lucide-react';
+import { trackEvent } from '../analytics';
 import logo from '../assets/logo.png';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
@@ -33,6 +34,7 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
     const leaderboard = generateLeaderboard(userScore);
 
     const handleShare = async () => {
+        trackEvent('share_click', { score: userScore });
         const shareData = {
             title: 'TwoTell - Fact Checking Game',
             text: `I scored ${userScore}/${maxScore} points on TwoTell! Can you spot fake news better than me? 🎯`,
@@ -60,6 +62,11 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
         setTimeout(() => {
             alert('You\'ll be notified when new content is available! 🔔');
         }, 300);
+    };
+
+    const handlePlayAgain = () => {
+        trackEvent('play_again_click');
+        onPlayAgain();
     };
 
     const getRankIcon = (rank) => {
@@ -167,7 +174,7 @@ export function Leaderboard({ userScore, maxScore, onPlayAgain }) {
                             </Button>
 
                             <Button
-                                onClick={onPlayAgain}
+                                onClick={handlePlayAgain}
                                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white"
                                 size="lg"
                             >

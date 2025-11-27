@@ -72,7 +72,7 @@ export function ClaimCard({ claim, isSelected, isRevealed, onSelect }) {
                     <span className="text-xs">{claim.postedDate}</span>
                 </div>
 
-                <h3 className="text-sm font-semibold leading-snug mb-2 text-gray-900">{claim.headline}</h3>
+                <h3 className="text-sm font-semibold leading-snug mb-2 text-gray-900 text-left">{claim.headline}</h3>
 
                 {/* Source Info (shown when revealed) */}
                 {isRevealed && (

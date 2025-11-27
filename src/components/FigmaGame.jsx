@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { trackEvent } from '../analytics';
 import { supabase } from '../supabase';
 import { ClaimCard } from './ClaimCard';
 import { ScoreBoard } from './ScoreBoard';
@@ -89,9 +90,18 @@ export default function FigmaGame({ onBack, user }) {
         setSelectedClaim(claimId);
 
         const claim = currentClaims.find(c => c.id === claimId);
-        if (claim?.isTrue) {
-            setScore(score + 10);
+        const isCorrect = !claim?.isTrue;
+        const newScore = isCorrect ? score + 10 : score;
+
+        if (isCorrect) {
+            setScore(newScore);
         }
+
+        trackEvent('round_answered', {
+            round: currentRound + 1,
+            is_correct: isCorrect,
+            score_so_far: newScore
+        });
     };
 
     const handleNextRound = () => {
@@ -99,6 +109,10 @@ export default function FigmaGame({ onBack, user }) {
             setCurrentRound(currentRound + 1);
             setSelectedClaim(null);
         } else {
+            trackEvent('game_completed', {
+                final_score: score,
+                total_rounds: totalRounds
+            });
             setGameFinished(true);
         }
     };
@@ -191,7 +205,7 @@ export default function FigmaGame({ onBack, user }) {
 
                         {/* Center: Question */}
                         <p className="text-white/90 font-medium text-sm absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
-                            Which claim is true?
+                            Which claim is FALSE?
                         </p>
 
                         {/* Right: Score */}
@@ -217,9 +231,8 @@ export default function FigmaGame({ onBack, user }) {
             {/* Result Modal */}
             {selectedClaim && (
                 <ResultModal
-                    isCorrect={currentClaims.find(c => c.id === selectedClaim)?.isTrue || false}
-                    trueClaim={currentClaims.find(c => c.isTrue)}
-                    falseClaim={currentClaims.find(c => !c.isTrue)}
+                    isCorrect={currentClaims.find(c => c.id === selectedClaim)?.isTrue === false}
+                    claims={currentClaims}
                     onNext={handleNextRound}
                     isLastRound={currentRound >= totalRounds - 1}
                 />

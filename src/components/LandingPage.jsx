@@ -34,7 +34,7 @@ export function LandingPage({ onPlayAsGuest, onLoginWithGoogle }) {
                         className="bg-white/10 backdrop-blur-sm border-2 border-white/20 rounded-2xl p-6 mb-8"
                     >
                         <h2 className="text-white mb-3 text-lg font-semibold">
-                            Can you spot the true fact from the false or misleading one?
+                            Can you spot the false or misleading fact from the true one?
                         </h2>
                         <p className="text-white/80 text-sm">
                             Test your ability to identify fake news and misinformation in this fast-paced educational game.

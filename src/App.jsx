@@ -7,6 +7,8 @@ import AdminDashboard from './components/AdminDashboard'
 import FigmaGame from './components/FigmaGame'
 import { LandingPage } from './components/LandingPage'
 
+import { identifyUser, trackEvent, resetAnalytics } from './analytics'
+
 function App() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -19,6 +21,13 @@ function App() {
       setUser(currentUser);
       setLoading(false);
 
+      if (currentUser) {
+        identifyUser(currentUser.uid, {
+          email: currentUser.email,
+          name: currentUser.displayName
+        });
+      }
+
       // If user is logged in and on landing page, redirect to game
       // But allow admin access if requested
       if (currentUser && location.pathname === '/') {
@@ -30,6 +39,7 @@ function App() {
 
   const handleLogin = async () => {
     try {
+      trackEvent('login_click');
       await signInWithGoogle();
       // Auth listener will handle redirect
     } catch (error) {
@@ -38,6 +48,7 @@ function App() {
   }
 
   const handleGuestPlay = () => {
+    trackEvent('game_start', { type: 'guest' });
     setUser({ displayName: 'Guest', email: '', uid: 'guest', isAnonymous: true });
     navigate('/game');
   }
@@ -46,6 +57,7 @@ function App() {
     try {
       if (user && !user.isAnonymous) {
         await logout();
+        resetAnalytics();
       }
       setUser(null);
       navigate('/');

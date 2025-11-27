@@ -2,7 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, XCircle, ExternalLink, User, ArrowRight } from 'lucide-react';
 import { Button } from './ui/button';
 
-export function ResultModal({ isCorrect, trueClaim, falseClaim, onNext, isLastRound }) {
+export function ResultModal({ isCorrect, claims, onNext, isLastRound }) {
     return (
         <AnimatePresence>
             <motion.div
@@ -45,63 +45,50 @@ export function ResultModal({ isCorrect, trueClaim, falseClaim, onNext, isLastRo
 
                     {/* Claims Info */}
                     <div className="p-6 space-y-4">
-                        {/* True Claim */}
-                        <div className="border-2 border-green-500 rounded-xl p-4 bg-green-50">
-                            <div className="flex items-start gap-2 mb-2">
-                                <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                                <div className="flex-1">
-                                    <div className="text-green-800 font-bold mb-1">TRUE</div>
-                                    <p className="text-sm text-gray-700">{trueClaim.headline}</p>
+                        {claims.map((claim) => (
+                            <div
+                                key={claim.id}
+                                className={`border-2 rounded-xl p-4 ${claim.isTrue
+                                        ? 'border-green-500 bg-green-50'
+                                        : 'border-red-500 bg-red-50'
+                                    }`}
+                            >
+                                <div className="flex items-start gap-2 mb-2">
+                                    {claim.isTrue ? (
+                                        <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                                    ) : (
+                                        <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                                    )}
+                                    <div className="flex-1">
+                                        <div className={`font-bold mb-1 ${claim.isTrue ? 'text-green-800' : 'text-red-800'
+                                            }`}>
+                                            {claim.isTrue ? 'TRUE' : 'FALSE'}
+                                        </div>
+                                        <p className="text-sm text-gray-700 text-left">{claim.headline}</p>
+                                    </div>
+                                </div>
+
+                                <div className={`mt-3 pt-3 border-t space-y-2 ${claim.isTrue ? 'border-green-200' : 'border-red-200'
+                                    }`}>
+                                    {claim.author && (
+                                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                                            <User className="w-4 h-4" />
+                                            <span>{claim.author}</span>
+                                        </div>
+                                    )}
+                                    <a
+                                        href={claim.sourceUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={`flex items-center gap-2 text-sm hover:underline ${claim.isTrue ? 'text-green-700 hover:text-green-800' : 'text-red-700 hover:text-red-800'
+                                            }`}
+                                    >
+                                        <ExternalLink className="w-4 h-4" />
+                                        <span>{claim.sourceName}</span>
+                                    </a>
                                 </div>
                             </div>
-
-                            <div className="mt-3 pt-3 border-t border-green-200 space-y-2">
-                                {trueClaim.author && (
-                                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                                        <User className="w-4 h-4" />
-                                        <span>{trueClaim.author}</span>
-                                    </div>
-                                )}
-                                <a
-                                    href={trueClaim.sourceUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-2 text-sm text-green-700 hover:text-green-800"
-                                >
-                                    <ExternalLink className="w-4 h-4" />
-                                    <span>{trueClaim.sourceName}</span>
-                                </a>
-                            </div>
-                        </div>
-
-                        {/* False Claim */}
-                        <div className="border-2 border-red-500 rounded-xl p-4 bg-red-50">
-                            <div className="flex items-start gap-2 mb-2">
-                                <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                                <div className="flex-1">
-                                    <div className="text-red-800 font-bold mb-1">FALSE</div>
-                                    <p className="text-sm text-gray-700">{falseClaim.headline}</p>
-                                </div>
-                            </div>
-
-                            <div className="mt-3 pt-3 border-t border-red-200 space-y-2">
-                                {falseClaim.author && (
-                                    <div className="flex items-center gap-2 text-sm text-gray-600">
-                                        <User className="w-4 h-4" />
-                                        <span>{falseClaim.author}</span>
-                                    </div>
-                                )}
-                                <a
-                                    href={falseClaim.sourceUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-2 text-sm text-red-700 hover:text-red-800"
-                                >
-                                    <ExternalLink className="w-4 h-4" />
-                                    <span>{falseClaim.sourceName}</span>
-                                </a>
-                            </div>
-                        </div>
+                        ))}
                     </div>
 
                     {/* Action Button */}
